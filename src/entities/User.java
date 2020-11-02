@@ -5,36 +5,51 @@
  */
 package entities;
 
+import com.sun.istack.internal.NotNull;
 import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Random;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import jktvr19_ostromogilskii_laptops.App.Role;
 
 /**
  *
  * @author pupil
  */
+@Entity
+@NamedQueries({
+ @NamedQuery(name = "loadUsers", query = "SELECT * FROM User"),
+ @NamedQuery(name = "getUser", query = "SELECT id FROM User WHERE login = login AND password = password"),
+})
 public class User implements Serializable{
 
 //variables
-    private long id;
+    @Id @GeneratedValue
+    private int id;
+    @NotNull
     private Role role;
+    @NotNull
     private String login;
+    @NotNull
     private String password;
+    @NotNull
     private double money;
 
 //constructors
+    public User(){
+        this.setRole(Role.GUEST);
+    }
     public User(String login, String password, Role role) throws IncorrectValueException{
-        this.id = System.nanoTime()/new Random().nextInt();
         this.setLogin(login);
         this.setPassword(password);
         this.setRole(role);
         this.setMoney(10000);
     }
-    public User(){
-        this.setRole(Role.GUEST);
-    }
+    
 
 //getters
     public Role getRole() {
@@ -49,7 +64,7 @@ public class User implements Serializable{
     public double getMoney() {
         return money;
     }
-    public long getId(){
+    public int getId(){
         return id;
     }
     

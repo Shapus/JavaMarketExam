@@ -5,23 +5,42 @@
  */
 package entities;
 
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author pupil
  */
+@Entity
+@NamedQueries({
+ @NamedQuery(name = "loadDeals", query = "SELECT * FROM Deal"),
+ @NamedQuery(name = "getLastDeal", query = "SELECT * FROM Deal ORDER BY Date DESC LIMIT 1"),
+})
 public class Deal implements Serializable{
     
 //variables
-    User user;
-    Product product;
-    int quantity;
-    Date date;
+    @Id @GeneratedValue
+    private int id;
+    @NotNull
+    private User user;
+    @NotNull
+    private Product product;
+    @NotNull
+    private int quantity;
+    @NotNull
+    private Date date;
     
 //constructors
+    public Deal(){
+    }
     public Deal(User user, Product product){
         this.user = user;
         this.product = product;
@@ -36,6 +55,9 @@ public class Deal implements Serializable{
     }
     
 //getters
+    public int getId() {
+        return id;
+    }
     public User getUser() {
         return user;
     }

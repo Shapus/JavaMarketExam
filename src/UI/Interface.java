@@ -24,7 +24,7 @@ import utils.Scan;
 public class Interface {
     
 //variables
-    private static long userId;
+    private static int userId;
     private static boolean exit;
     private static int operation;
     public static String[] adminTaskList = {
@@ -47,7 +47,7 @@ public class Interface {
                         };
     
 //administrator interface
-    public static boolean adminInterface(long user){
+    public static boolean adminInterface(int userId){
         Interface.userId = userId;
         exit = false;
         while(!exit){
@@ -97,7 +97,7 @@ public class Interface {
     }
     
 //user interface
-    public static boolean userInterface(long user){
+    public static boolean userInterface(int user){
         Interface.userId = user;
         exit = false;
         while(!exit){

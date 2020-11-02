@@ -10,7 +10,7 @@ import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import managers.MarketManager;
+import managers.Database;
 import managers.UserManager;
 import security.Security;
 
@@ -21,7 +21,7 @@ import security.Security;
 public class App {   
     //security class
     Security security;
-    Long userId;
+    Integer userId;
     
     //user roles
     public static enum Role{GUEST, USER, ADMIN};
@@ -68,7 +68,7 @@ public class App {
     private boolean runApp;
 
     public void run(){
-        MarketManager.load();
+        Database.init();
         boolean existAdmin = false;
         int i = 0;
         while(!existAdmin && i<users.size()){
@@ -98,6 +98,5 @@ public class App {
                 runApp = Interface.adminInterface(userId);
             }
         }
-        MarketManager.save();
     }
 }

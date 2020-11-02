@@ -17,15 +17,15 @@ import utils.Scan;
  * @author pupil
  */
 public class Security {
-    private long userId;
+    private int userId;
     private String[] taskList = {
                     "Выйти из программы",
                     "Войти",
                     "Зарегистрироваться",
                     };
     private int operation;
-    public Long run(){
-        userId = UserManager.guest();
+    public Integer run(){
+        userId = -1;
         while(true){
             Print.printList(taskList);
             operation = Scan.getOperation(taskList);
@@ -40,7 +40,7 @@ public class Security {
                     break;
                 case 1:
                     userId = UILogin.login();
-                    if(UserManager.check(userId)){
+                    if(UserManager.get(userId) != null){
                         return userId;
                     }else{
                         Print.errorln("Неверно введен логин и/или пароль");

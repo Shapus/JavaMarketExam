@@ -94,7 +94,7 @@ public class UIMethods {
     }
 
 //buy product by user
-    public static void buyProduct(long userId){
+    public static void buyProduct(int userId){
         try {
             if(ProductManager.get().size() > 0){
                 Print.printList(ProductManager.get());

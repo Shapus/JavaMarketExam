@@ -28,20 +28,14 @@ public class DealManager extends App{
     }
 
 //add deal
-    public static boolean add(Deal deal){
+    public static void add(Deal deal){
         deals.add(deal);
-        return update();
+        Database.insert(deal);
     }
     
 //get last deal
     public static ArrayList<Deal> getLast(){
-        int size = deals.size();
-        if(size > 0){
-            ArrayList<Deal> out = new ArrayList();
-            out.add(deals.get(size-1));
-            return out;
-        }
-        return new ArrayList();
+        return (ArrayList<Deal>)Database.query("getLastDeal", Deal.class);
     }
     
 //get last *n* deals

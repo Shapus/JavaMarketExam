@@ -9,6 +9,7 @@ import IO.FileManager;
 import entities.User;
 import exceptions.IncorrectValueException;
 import java.util.ArrayList;
+import java.util.List;
 import jktvr19_ostromogilskii_laptops.App;
 import utils.Print;
 
@@ -27,13 +28,8 @@ public class UserManager extends App{
     }
     
 //get user
-    public static User get(long id){
-        for(User u : users){
-            if(u.getId() == id){
-                return users.get(users.indexOf(u));
-            }
-        }
-        return null;
+    public static User get(int id){
+        return (User)Database.select(User.class, id);
     }
 
 //add admin
@@ -46,47 +42,32 @@ public class UserManager extends App{
     }
     
 //add user
-    public static boolean add(User user){
-        users.add(user);
-        return update();
+    public static void add(User user){
+        Database.insert(user);
     }
     
 //delete user
-    public static boolean delete(User user){
-        users.remove(user);
-        return update();
+    public static void delete(User user){
+        Database.delete(User.class, user.getId());
     }
     
 //delete user by index
-    public static boolean delete(int index){
-        users.remove(index);
-        return update();
+    public static void delete(int id){
+        Database.delete(User.class, id);
     }
    
 //get guest user
-    public static long guest(){
+    public static int guest(){
         if(guest == null){
             guest = new User();
         }
         return guest.getId();
     }
     
-//check if user exists
-    public static boolean check(long id){
-        for(User u : users){
-            if(u.getId() == id){
-                return true;
-            }
-        }
-        return false;
-    }
     
 //load users ArrayList from file
-    public static void load(){
-        users = FileManager.loadFromFile(Path.USERS.getPath());
-        if(users == null){
-            users = new ArrayList();
-        }
+    public static List<User> load(){
+        return Database.query("loadUsers", User.class);
     }
     
 //save users ArrayList to file

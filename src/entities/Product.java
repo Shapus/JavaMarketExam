@@ -5,19 +5,34 @@
  */
 package entities;
 
+import com.sun.istack.internal.NotNull;
 import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author pupil
  */
+@Entity
+@NamedQueries({
+ @NamedQuery(name = "loadData", query = "SELECT * FROM Product"),
+})
 public class Product implements Serializable{
 
 //variables
+    @Id @GeneratedValue
+    private int id;
+    @NotNull
     private String name;
+    @NotNull
     private double price;
+    @NotNull
     private int quantity;
 
 //constructors    

@@ -10,6 +10,7 @@ import exceptions.IncorrectValueException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jktvr19_ostromogilskii_laptops.App.Role;
+import managers.Database;
 import managers.UserManager;
 import utils.Print;
 import utils.Scan;
@@ -20,23 +21,16 @@ import utils.Scan;
  */
 public class UILogin {
 //log in
-    public static long login(){
+    public static int login(){
         String login;
         String password;
-        long userId = UserManager.guest();
+        int userId = UserManager.guest();
             
         Print.alert("Имя пользователя:", " ");
         login = Scan.getString();
         Print.alert("Пароль:", " ");
         password = Scan.getString();
-        for(User u : UserManager.get()){
-            if(u.getLogin().equals(login)){
-                if(u.getPassword().equals(password)){
-                    userId = u.getId();
-                }
-                break;
-            }
-        }
+        User user = Database.query("", className)
         return userId;
     }
     
