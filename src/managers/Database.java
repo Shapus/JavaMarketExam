@@ -38,7 +38,7 @@ public class Database {
         em.persist(entity);
         tx.commit();
     }
-    public static void insertAll(ArrayList entityArray){
+    public static void insertAll(List entityArray){
         if(!Database.getTx().isActive()){
             tx.begin();
         }

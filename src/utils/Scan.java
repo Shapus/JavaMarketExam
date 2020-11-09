@@ -7,6 +7,7 @@ package utils;
 
 import exceptions.IncorrectInputException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -72,9 +73,9 @@ public class Scan{
         }
     }
     
-    //get ArrayList/String[] index. If index above array size or less zero, throw NumberFormatException
+    //get List/String[] index. If index above list size or less zero, throw NumberFormatException
     //Should rewrite with generics
-    public static int getIndex(ArrayList list, int shift, String str) throws IncorrectInputException{
+    public static<E> int getIndex(List<E> list, int shift, String str) throws IncorrectInputException{
         int index = getInt(str);
         if(index > list.size()-1+shift || index < shift) throw new IncorrectInputException("Неверный индекс");
         return index;

@@ -5,10 +5,8 @@
  */
 package managers;
 
-import IO.FileManager;
 import entities.User;
 import exceptions.IncorrectValueException;
-import java.util.ArrayList;
 import app.App;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -31,13 +29,9 @@ public class UserManager extends App{
 
 //get user
     public static User get(String login, String password){
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
         Query q = Database.getEm().
         createQuery("SELECT u FROM User u WHERE u.login=:login AND u.password=:password").setParameter("login", login).setParameter("password", password);
         User user = (User)q.getSingleResult();
-        Database.getTx().commit();
         return user;
     }    
     
@@ -45,10 +39,9 @@ public class UserManager extends App{
 //add admin
     public static void addAdmin() {
         try {
-            User admin;
             Query q = Database.getEm().
             createQuery("SELECT u FROM User u WHERE u.role=:role").setParameter("role", Role.ADMIN);
-            admin = (User)q.getSingleResult();
+            q.getSingleResult();
             
         }catch(NoResultException e){
             try{

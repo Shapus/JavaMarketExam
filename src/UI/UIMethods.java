@@ -10,9 +10,12 @@ import entities.User;
 import exceptions.IncorrectInputException;
 import exceptions.IncorrectValueException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import managers.MarketManager;
 import managers.ProductManager;
 import managers.UserManager;
+import security.Security;
 import utils.Print;
 import utils.Scan;
 
@@ -59,14 +62,14 @@ public class UIMethods {
     
 //delete product
     public static void deleteProduct(){
-        ArrayList<Product> products = ProductManager.getAll();
+        List<Product> products = ProductManager.getAll();
         try {
             if(products.size() > 0){
                 Print.printList(ProductManager.getAll());
                 int index = Scan.getIndex(products, 1, "Выберите продукт для удаления: ");
                 Product product = products.get(index-1);
-                ProductManager.delete(product.getId());
-                if(ProductManager.get(product.getId()) == null){
+                ProductManager.delete(product);
+                if(ProductManager.get(product.getId()).isDeleted()){
                     System.out.println(product.toString() + " удален");
                 }
                 else{
@@ -82,7 +85,7 @@ public class UIMethods {
     
 //change quantity
     public static void changeProductQuantity(){
-        ArrayList<Product> products = ProductManager.getAll();
+        List<Product> products = ProductManager.getAll();
         try {
             if(products.size() > 0){
                     Print.printList(products);
@@ -100,17 +103,17 @@ public class UIMethods {
     }
 
 //buy product by user
-    public static void buyProduct(User user){
-        ArrayList<Product> products = ProductManager.getAll();
+    public static void buyProduct(){
+        List<Product> products = ProductManager.getAll();
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт: ");
                 Product product = products.get(index-1);
                 int quantity = Scan.getInt("Введите количество: ");
-                if(MarketManager.buy(UserManager.get(user.getId()), product, quantity) != null){
+                if(MarketManager.buy(UserManager.get(Security.getUser().getId()), product, quantity) != null){
                     System.out.println("Вы успешно купили продукт: "+product.getData()+" в количестве "+quantity);
-                    System.out.println("Остаток на счете: "+UserManager.get(user.getId()).getMoney());
+                    System.out.println("Остаток на счете: "+Security.getUser().getMoney());
                 }
             }else{
                 Print.emptyMessage();

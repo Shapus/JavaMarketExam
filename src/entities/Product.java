@@ -8,7 +8,9 @@ package entities;
 import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,18 +24,26 @@ public class Product implements Serializable{
 
 //variables
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(fetch=FetchType.EAGER)
     private int id;
+    @Basic(fetch=FetchType.EAGER)
     private String name;
+    @Basic(fetch=FetchType.EAGER)
     private double price;
+    @Basic(fetch=FetchType.EAGER)
     private int quantity;
+    @Basic(fetch=FetchType.EAGER)
+    private boolean deleted;
 
 //constructors    
     public Product(){
+        this.deleted = false;
     }
     public Product(String name, double price, int quantity) throws IncorrectValueException{
         this.setName(name);
         this.setPrice(price);
         this.setQuantity(quantity);
+        this.deleted = false;
     }
 
 //getters
@@ -48,6 +58,9 @@ public class Product implements Serializable{
     }
     public int getId() {
         return id;
+    }
+    public boolean isDeleted(){
+        return deleted;
     }
     
 //setters
@@ -64,19 +77,22 @@ public class Product implements Serializable{
         this.price = price;
     }
     public void setQuantity(int quantity) throws IncorrectValueException {
-        if(quantity <= 0){
+        if(quantity < 0){
             throw new IncorrectValueException("Неверно введено количество");
         }
         this.quantity = quantity;
+    }
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
        
 //to string
     @Override
     public String toString() {
-        return "Product{" + "model=" + name + ", cost=" + price + ", quantity=" + quantity + '}';
+        return "Product " + id + " {" + "model=" + name + ", cost=" + price + ", quantity=" + quantity + '}';
     }
     public String getData() {
-        return "Product{" + "model=" + name + ", cost=" + price + "}";
+        return "Product " + id + " {" + "model=" + name + ", cost=" + price + "}";
     }
     
     

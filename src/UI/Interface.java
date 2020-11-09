@@ -5,13 +5,10 @@
  */
 package UI;
 
-import entities.Product;
-import entities.User;
 import exceptions.IncorrectInputException;
-import exceptions.IncorrectValueException;
 import managers.DealManager;
 import managers.ProductManager;
-import managers.UserManager;
+import security.Security;
 import utils.Print;
 import utils.Scan;
 
@@ -22,7 +19,6 @@ import utils.Scan;
 public class Interface {
     
 //variables
-    private static User user;
     private static boolean exit;
     private static int operation;
     public static String[] adminTaskList = {
@@ -45,8 +41,7 @@ public class Interface {
                         };
     
 //administrator interface
-    public static boolean adminInterface(User user){
-        Interface.user = user;
+    public static boolean adminInterface(){
         exit = false;
         while(!exit){
             Print.printList(adminTaskList);
@@ -73,7 +68,7 @@ public class Interface {
                     UIMethods.changeProductQuantity();
                     break;
                 case 6:
-                    Print.printList(DealManager.getLast());
+                    Print.printList(DealManager.getLast(1));
                     break;
                 case 7:
                     try {
@@ -95,8 +90,7 @@ public class Interface {
     }
     
 //user interface
-    public static boolean userInterface(User user){
-        Interface.user = user;
+    public static boolean userInterface(){
         exit = false;
         while(!exit){
             Print.printList(userTaskList);
@@ -114,10 +108,10 @@ public class Interface {
                     Print.printList(ProductManager.getAll());
                     break;
                 case 3: 
-                    UIMethods.buyProduct(user);
+                    UIMethods.buyProduct();
                     break;
                 case 4: 
-                    System.out.println("Остаток на счете: "+UserManager.get(user.getId()).getMoney());
+                    System.out.println("Остаток на счете: "+Security.getUser().getMoney());
                     break;
                 default:
                     break;

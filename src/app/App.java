@@ -21,7 +21,6 @@ import security.Security;
 public class App {   
     //security class
     Security security;
-    User user;
     
     //user roles
     public static enum Role{GUEST, USER, ADMIN};
@@ -71,19 +70,20 @@ public class App {
         security = new Security();
         UserManager.addAdmin();
         runApp = true;
-        while(runApp){           
-            user = security.run();
-            if(user == null){
+        while(runApp){
+            security.run();
+            
+            if(Security.getUser() == null){
                 runApp = false;
             }
-            else if(user.getRole() == Role.GUEST){
+            else if(Security.getUser().getRole() == Role.GUEST){
                 
             }
-            else if(UserManager.get(user.getId()).getRole() == Role.USER){
-                runApp = Interface.userInterface(user);
+            else if(UserManager.get(Security.getUser().getId()).getRole() == Role.USER){
+                runApp = Interface.userInterface();
             }
-            else if(UserManager.get(user.getId()).getRole() == Role.ADMIN){
-                runApp = Interface.adminInterface(user);
+            else if(UserManager.get(Security.getUser().getId()).getRole() == Role.ADMIN){
+                runApp = Interface.adminInterface();
             }
         }
     }

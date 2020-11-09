@@ -9,7 +9,9 @@ import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
 import app.App.Role;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,19 +29,25 @@ public class User implements Serializable{
     private Role role;
     private String login;
     private String password;
+    @Basic(fetch=FetchType.EAGER)
     private double money;
+    @Basic(fetch=FetchType.EAGER)
+    private boolean deleted;
 
 //constructors
     public User(){
+        this.deleted = false;
     }
     public User(Role role){
         this.setRole(role);
+        this.deleted = false;
     }
     public User(String login, String password, Role role) throws IncorrectValueException{
         this.setLogin(login);
         this.setPassword(password);
         this.setRole(role);
         this.setMoney(10000);
+        this.deleted = false;
     }
     
 
@@ -89,7 +97,7 @@ public class User implements Serializable{
 //to string
     @Override    
     public String toString() {
-        return "User "+hashCode()+" {" + "role=" + role + ", login=" + login + '}';
+        return "User "+id+" {" + "role=" + role + ", login=" + login + '}';
     }
 
 //hash code

@@ -5,12 +5,10 @@
  */
 package managers;
 
-import IO.FileManager;
 import entities.Product;
-import entities.User;
-import exceptions.IncorrectValueException;
-import java.util.ArrayList;
 import app.App;
+import exceptions.IncorrectValueException;
+import java.util.List;
 import javax.persistence.Query;
 import utils.Print;
 
@@ -27,11 +25,13 @@ public class ProductManager extends App{
     }
 
 //get all
-    public static ArrayList<Product> getAll(){
-        Database.getTx().begin();
+    public static List<Product> getAll(){
+        if(!Database.getTx().isActive()){
+            Database.getTx().begin();
+        }
         Query q = Database.getEm().
-        createQuery("SELECT u FROM User u");
-        return (ArrayList<Product>)q.getResultList();
+        createQuery("SELECT p FROM Product p WHERE p.deleted = false");
+        return q.getResultList();
     }    
     
 //add product
@@ -40,25 +40,25 @@ public class ProductManager extends App{
     }
     
 //delete product by id
-    public static void delete(int id){
-        Database.delete(Product.class, id);
+    public static void delete(Product product){
+        if(!Database.getTx().isActive()){
+            Database.getTx().begin();
+        }
+        product.setDeleted(true);
+        Database.getTx().commit();
     }
     
 //increase quantity
     public static void increaseQuantity(Product product, int quantity){
-        
-    }
-//increase quantity by 1
-    public static void increaseQuantity(Product product){
-        
-    }
-    
-//decrease quantity
-    public static void decreaseQuantity(Product product, int quantity){
+       if(!Database.getTx().isActive()){
+            Database.getTx().begin();
+        }
+        try {
+            product.setQuantity(product.getQuantity()+quantity);
+        } catch (IncorrectValueException ex) {
+            Print.errorln("Не удалось изменить количество");
+        }
+       Database.getTx().commit();
        
-    }  
-//decrease quantity by 1
-    public static void decreaseQuantity(Product product){
-        
     }
 }

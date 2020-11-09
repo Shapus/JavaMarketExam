@@ -7,11 +7,8 @@ package UI;
 
 import entities.User;
 import exceptions.IncorrectValueException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import app.App.Role;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import managers.Database;
 import managers.UserManager;
 import utils.Print;
@@ -33,7 +30,7 @@ public class UILogin {
         Print.alert("Пароль:", " ");
         password = Scan.getString();
         try{
-        user = UserManager.get(login, password);
+            user = UserManager.get(login, password);
         }catch(NoResultException e){
             Print.errorln("Неверно введен логин и/или пароль");
             return UserManager.guest();

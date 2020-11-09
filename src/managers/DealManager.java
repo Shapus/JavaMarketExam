@@ -5,10 +5,11 @@
  */
 package managers;
 
-import IO.FileManager;
 import entities.Deal;
-import java.util.ArrayList;
 import app.App;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,33 +29,23 @@ public class DealManager extends App{
     }
     
 //get last deal
-    public static ArrayList<Deal> getLast(){
-        int size = deals.size();
-        if(size > 0){
-            ArrayList<Deal> out = new ArrayList();
-            out.add(deals.get(size-1));
-            return out;
+    public static List<Deal> getLast(){
+        if(!Database.getTx().isActive()){
+            Database.getTx().begin();
         }
-        return new ArrayList();
+        Query q = Database.getEm().
+        createQuery("SELECT d FROM Deal d ORDER BY d.date DESC");
+        return q.getResultList();
     }
     
 //get last *n* deals
-    public static ArrayList<Deal> getLast(int amount){
-        ArrayList<Deal> out = new ArrayList();
-        int size = deals.size();
-        if(size > 0){
-            if(size > amount){
-                for(int i=size-amount;i<size;i++){
-                    out.add(deals.get(i));
-                }    
-            }
-            else {
-                for(int i=0;i<size;i++){
-                    out.add(deals.get(i));
-                }
-            }
-            return out;     
+    public static List<Deal> getLast(int amount){
+        if(!Database.getTx().isActive()){
+            Database.getTx().begin();
         }
-        return new ArrayList();
+        Query q = Database.getEm().
+        createQuery("SELECT d FROM Deal d ORDER BY d.date DESC", Integer.class).
+        setMaxResults(amount);
+        return q.getResultList();
     }     
 }

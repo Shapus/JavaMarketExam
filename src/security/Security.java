@@ -17,14 +17,15 @@ import utils.Scan;
  * @author pupil
  */
 public class Security {
-    private User user;
+    private static User user = null;
     private String[] taskList = {
                     "Выйти из программы",
                     "Войти",
                     "Зарегистрироваться",
                     };
     private int operation;
-    public User run(){
+    
+    public void run(){
         user = UserManager.guest();
         while(true){
             Print.printList(taskList);
@@ -35,17 +36,25 @@ public class Security {
             switch (operation) {
                 case 0:
                     if(UIMethods.exit()){
-                        return null;
+                        return;
                     } 
                     break;
                 case 1:
                     user = UILogin.login();
-                    return user;
+                    return;
                 case 2:
                     UILogin.registration();
                     break;
             }
         }
     }
+    
+    public static User getUser(){
+        if(user == UserManager.guest()){
+            return user;
+        }
+        return UserManager.get(user.getId());
+    }
+    
     
 }
