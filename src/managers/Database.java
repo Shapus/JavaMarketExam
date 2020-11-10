@@ -5,13 +5,11 @@
  */
 package managers;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 /**
  *
@@ -29,19 +27,22 @@ public class Database {
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
-    
-//insert    
-    public static <T> void insert(T entity){
+
+//begin
+    public static void begin(){
         if(!Database.getTx().isActive()){
             tx.begin();
         }
+    }
+    
+//insert    
+    public static <T> void insert(T entity){
+        begin();
         em.persist(entity);
         tx.commit();
     }
     public static void insertAll(List entityArray){
-        if(!Database.getTx().isActive()){
-            tx.begin();
-        }
+        begin();
         for(int i=0; i<entityArray.size();i++){         
             em.persist(entityArray.get(i));
         }
@@ -50,9 +51,7 @@ public class Database {
     
 //get
     public static <T> T select(Class<T> className, int id){
-        if(!Database.getTx().isActive()){
-            tx.begin();
-        }
+        begin();
         T out = em.find(className, id);
         tx.commit();
         return out;
@@ -60,9 +59,7 @@ public class Database {
     
 //update    
     public static <T> void update(Class<T> className, int id){
-        if(!Database.getTx().isActive()){
-            tx.begin();
-        }
+        begin();
         Object object = em.find(className, id);
         //update values code...
         tx.commit();
@@ -70,9 +67,7 @@ public class Database {
     
 //delete
     public static <T> void delete(Class<T> className, int id){
-        if(!Database.getTx().isActive()){
-            tx.begin();
-        }
+        begin();
         Object object = em.find(className, id);
         em.remove(object);
         tx.commit();
@@ -80,9 +75,7 @@ public class Database {
     
 //query
     public static <T> List<T> namedQuery(String queryName, Class<T> className){
-        if(!Database.getTx().isActive()){
-            tx.begin();
-        }
+        begin();
         List<T> out = em.createNamedQuery(queryName, className).getResultList();
         tx.commit();
         return out;

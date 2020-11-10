@@ -6,11 +6,8 @@
 package UI;
 
 import entities.Product;
-import entities.User;
 import exceptions.IncorrectInputException;
 import exceptions.IncorrectValueException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import managers.MarketManager;
 import managers.ProductManager;
@@ -65,7 +62,7 @@ public class UIMethods {
         List<Product> products = ProductManager.getAll();
         try {
             if(products.size() > 0){
-                Print.printList(ProductManager.getAll());
+                Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для удаления: ");
                 Product product = products.get(index-1);
                 ProductManager.delete(product);
@@ -74,6 +71,29 @@ public class UIMethods {
                 }
                 else{
                     Print.errorln("Не удалось удалить продукт", " "+product.toString());
+                }
+            }else{
+                Print.emptyMessage();
+            }
+        }catch (IncorrectInputException e) {
+            Print.errorln(e.toString());
+        }
+    }
+    
+//restore product
+    public static void restoreProduct(){
+        List<Product> products = ProductManager.getAll(true);
+        try {
+            if(products.size() > 0){
+                Print.printList(products);
+                int index = Scan.getIndex(products, 1, "Выберите продукт для восстановления: ");
+                Product product = products.get(index-1);
+                ProductManager.delete(product);
+                if(!ProductManager.get(product.getId()).isDeleted()){
+                    System.out.println(product.toString() + " восстановлен");
+                }
+                else{
+                    Print.errorln("Не удалось восстановить продукт", " "+product.toString());
                 }
             }else{
                 Print.emptyMessage();

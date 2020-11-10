@@ -17,7 +17,7 @@ import utils.Scan;
  * @author pupil
  */
 public class Security {
-    private static User user = null;
+    private static User user = UserManager.guest();
     private String[] taskList = {
                     "Выйти из программы",
                     "Войти",

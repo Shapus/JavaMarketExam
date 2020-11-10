@@ -27,6 +27,7 @@ public class Interface {
                         "Добавить продукт",
                         "Список продуктов",
                         "Удалить продукт",
+                        "Восстановить продукт",
                         "Изменить количество",
                         "Посмотреть последнюю запись",
                         "Посмотреть последние n записей",
@@ -65,12 +66,15 @@ public class Interface {
                     UIMethods.deleteProduct();
                     break;
                 case 5:   
+                    UIMethods.restoreProduct();
+                    break;
+                case 6:   
                     UIMethods.changeProductQuantity();
                     break;
-                case 6:
+                case 7:
                     Print.printList(DealManager.getLast(1));
                     break;
-                case 7:
+                case 8:
                     try {
                         int amount = Scan.getInt("Введите количество записей: ");
                         Print.printList(DealManager.getLast(amount));
@@ -78,7 +82,7 @@ public class Interface {
                         Print.errorln("Неверный ввод");
                     }
                     break;
-                case 8:
+                case 9:
                     Print.printList(DealManager.getLast());
                     break;
                 default:

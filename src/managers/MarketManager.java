@@ -10,9 +10,6 @@ import entities.Product;
 import entities.User;
 import exceptions.IncorrectValueException;
 import app.App;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Query;
 import security.Security;
 import utils.Print;
 
@@ -40,14 +37,9 @@ public class MarketManager extends App{
             Print.errorln("Недостаточно средств");
             return null;
         }
-  
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+
         //update      
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         double oldMoney = user.getMoney(); 
         try {
             user.setMoney(user.getMoney()-product.getPrice()*quantity);

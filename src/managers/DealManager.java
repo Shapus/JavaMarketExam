@@ -7,7 +7,6 @@ package managers;
 
 import entities.Deal;
 import app.App;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -30,9 +29,7 @@ public class DealManager extends App{
     
 //get last deal
     public static List<Deal> getLast(){
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         Query q = Database.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC");
         return q.getResultList();
@@ -40,9 +37,7 @@ public class DealManager extends App{
     
 //get last *n* deals
     public static List<Deal> getLast(int amount){
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         Query q = Database.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC", Integer.class).
         setMaxResults(amount);

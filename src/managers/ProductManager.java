@@ -26,11 +26,17 @@ public class ProductManager extends App{
 
 //get all
     public static List<Product> getAll(){
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         Query q = Database.getEm().
         createQuery("SELECT p FROM Product p WHERE p.deleted = false");
+        return q.getResultList();
+    }
+//get all
+    public static List<Product> getAll(boolean deleted){
+        Database.begin();
+        Query q = Database.getEm().
+        createQuery("SELECT p FROM Product p WHERE p.deleted = :deleted").
+                setParameter("deleted", deleted);
         return q.getResultList();
     }    
     
@@ -41,24 +47,20 @@ public class ProductManager extends App{
     
 //delete product by id
     public static void delete(Product product){
-        if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         product.setDeleted(true);
         Database.getTx().commit();
     }
     
 //increase quantity
     public static void increaseQuantity(Product product, int quantity){
-       if(!Database.getTx().isActive()){
-            Database.getTx().begin();
-        }
+        Database.begin();
         try {
             product.setQuantity(product.getQuantity()+quantity);
         } catch (IncorrectValueException ex) {
             Print.errorln("Не удалось изменить количество");
         }
-       Database.getTx().commit();
+        Database.getTx().commit();
        
     }
 }

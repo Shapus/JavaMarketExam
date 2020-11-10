@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class FileManager {
     
     //save arrayList to file
-    public static boolean saveToFile(ArrayList list, String path){
+    public static boolean save(ArrayList list, String path){
         boolean successSave = false;            //return statement
         FileOutputStream fileOut = null;        //file stream
         ObjectOutputStream objectOut;    //object stream
@@ -72,7 +72,7 @@ public class FileManager {
     }
     
     //load arrayList from file
-    public static ArrayList loadFromFile(String path){
+    public static ArrayList load(String path){
         ArrayList out = new ArrayList();    //return statement
         FileInputStream fileIn;      //load fram path
         ObjectInputStream objectIn;  //input file stream

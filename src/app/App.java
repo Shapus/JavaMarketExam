@@ -10,7 +10,6 @@ import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import managers.MarketManager;
 import managers.UserManager;
 import security.Security;
 

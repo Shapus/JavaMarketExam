@@ -8,12 +8,11 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -26,7 +25,9 @@ public class Deal implements Serializable{
 //variables
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @OneToOne
     private User user;
+    @OneToOne
     private Product product;
     private int quantity;
     @Temporal(TemporalType.TIMESTAMP)
