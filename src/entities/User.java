@@ -9,15 +9,20 @@ import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import jktvr19_ostromogilskii_laptops.App.Role;
 
 /**
  *
  * @author pupil
  */
+@Entity
 public class User implements Serializable{
 
 //variables
+    @Id @GeneratedValue
     private long id;
     private Role role;
     private String login;
@@ -33,6 +38,7 @@ public class User implements Serializable{
         this.setMoney(10000);
     }
     public User(){
+        this.id = System.nanoTime()/new Random().nextInt();
         this.setRole(Role.GUEST);
     }
 

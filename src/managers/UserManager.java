@@ -9,6 +9,7 @@ import IO.FileManager;
 import entities.User;
 import exceptions.IncorrectValueException;
 import java.util.ArrayList;
+import java.util.List;
 import jktvr19_ostromogilskii_laptops.App;
 import utils.Print;
 
@@ -22,7 +23,7 @@ public class UserManager extends App{
     private static User guest;
     
 //get users
-    public static ArrayList<User> get(){
+    public static List<User> get(){
         return users;
     }
     
@@ -43,24 +44,25 @@ public class UserManager extends App{
         } catch (IncorrectValueException e) {
             Print.errorln("Не удалось добавить администратора");
         }
+        update();
     }
     
 //add user
-    public static boolean add(User user){
+    public static void add(User user){
         users.add(user);
-        return update();
+        update();
     }
     
 //delete user
-    public static boolean delete(User user){
+    public static void delete(User user){
         users.remove(user);
-        return update();
+        update();
     }
     
 //delete user by index
-    public static boolean delete(int index){
+    public static void delete(int index){
         users.remove(index);
-        return update();
+        update();
     }
    
 //get guest user
@@ -83,26 +85,19 @@ public class UserManager extends App{
     
 //load users ArrayList from file
     public static void load(){
-        users = FileManager.loadFromFile(Path.USERS.getPath());
+        users = storageManager.load(Path.USERS.getPath());
         if(users == null){
             users = new ArrayList();
         }
     }
     
 //save users ArrayList to file
-    public static boolean save(){
-        return FileManager.saveToFile(users, Path.USERS.getPath());
+    public static void save(){
+        storageManager.save(users, Path.USERS.getPath());
     }
 //update data   
-    public static boolean update(){
-        boolean out;
-        out = save();
-        if(out){
-            load();    
-        }
-        else{
-            Print.errorln("Не удалось обновить данные");
-        }
-        return out;
+    public static void update(){
+        save();
+        load();    
     }      
 }

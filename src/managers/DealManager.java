@@ -5,9 +5,9 @@
  */
 package managers;
 
-import IO.FileManager;
 import entities.Deal;
 import java.util.ArrayList;
+import java.util.List;
 import jktvr19_ostromogilskii_laptops.App;
 
 /**
@@ -17,7 +17,7 @@ import jktvr19_ostromogilskii_laptops.App;
 public class DealManager extends App{
     
 //get deals
-    public static ArrayList<Deal> get(){
+    public static List<Deal> get(){
         return deals;
     }
     
@@ -28,9 +28,9 @@ public class DealManager extends App{
     }
 
 //add deal
-    public static boolean add(Deal deal){
+    public static void add(Deal deal){
         deals.add(deal);
-        return update();
+        update();
     }
     
 //get last deal
@@ -45,8 +45,8 @@ public class DealManager extends App{
     }
     
 //get last *n* deals
-    public static ArrayList<Deal> get(int amount){
-        ArrayList<Deal> out = new ArrayList();
+    public static List<Deal> get(int amount){
+        List<Deal> out = new ArrayList();
         int size = deals.size();
         if(size > 0){
             if(size > amount){
@@ -66,25 +66,21 @@ public class DealManager extends App{
     
 //load users ArrayList from file
     public static void load(){
-        deals = FileManager.loadFromFile(App.Path.DEALS.getPath());
+        deals = storageManager.load(App.Path.DEALS.getPath());
         if(deals == null){
             deals = new ArrayList();
         }
     }
     
 //save users ArrayList to file
-    public static boolean save(){
-        return FileManager.saveToFile(deals, App.Path.DEALS.getPath());
+    public static void save(){
+        storageManager.save(deals, App.Path.DEALS.getPath());
     }
     
 //update data   
-    public static boolean update(){
-        boolean out;
-        out = save();
-        if(out){
-            load();    
-        }
-        return out;
+    public static void update(){
+        save();
+        load();    
     }   
     
 }

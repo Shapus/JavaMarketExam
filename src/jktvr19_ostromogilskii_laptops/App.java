@@ -5,14 +5,19 @@
  */
 package jktvr19_ostromogilskii_laptops;
 
+import IO.DatabaseManager;
+import IO.FileManager;
+import IO.StorageManagerInterface;
 import UI.Interface;
 import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
+import java.util.List;
 import managers.MarketManager;
 import managers.UserManager;
 import security.Security;
+import utils.Print;
 
 /**
  *
@@ -22,6 +27,7 @@ public class App {
     //security class
     Security security;
     Long userId;
+    public static StorageManagerInterface storageManager;
     
     //user roles
     public static enum Role{GUEST, USER, ADMIN};
@@ -60,14 +66,23 @@ public class App {
     
     
     //market data
-    protected static ArrayList<User> users;
-    protected static ArrayList<Product> products;
-    protected static ArrayList<Deal> deals;
+    protected static List<User> users;
+    protected static List<Product> products;
+    protected static List<Deal> deals;
     
     public static String[] taskList;
     private boolean runApp;
 
-    public void run(){
+    public void run(String flag){
+        if(flag.equals("file")){
+            storageManager = new FileManager();
+            System.out.println("Запись в файл");
+        }
+        else{
+            storageManager = new DatabaseManager();
+            System.out.println("Запись в базу данных");
+        }
+        storageManager = new DatabaseManager();
         MarketManager.load();
         boolean existAdmin = false;
         int i = 0;
@@ -88,8 +103,8 @@ public class App {
             if(userId == null){
                 runApp = false;
             }
-            else if(UserManager.get(userId).getRole() == Role.GUEST){
-                
+            else if(userId == UserManager.guest()){
+                Print.errorln("Неверно введен логин и/или пароль");
             }
             else if(UserManager.get(userId).getRole() == Role.USER){
                 runApp = Interface.userInterface(userId);

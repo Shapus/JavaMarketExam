@@ -5,7 +5,7 @@
  */
 package utils;
 import static java.lang.Integer.max;
-import java.util.ArrayList;
+import java.util.List;
 import jktvr19_ostromogilskii_laptops.App;
 /**
  *
@@ -14,8 +14,7 @@ import jktvr19_ostromogilskii_laptops.App;
 public class Print {
     
     //print menu with borders
-    public static void printList(ArrayList list){
-        
+    public static<E> void printList(List<E> list){
         //if list is empty
         if(list.isEmpty()){
             emptyMessage();
@@ -106,7 +105,7 @@ public class Print {
     }
     
     //get max length of printing strings
-    public static int getLen(ArrayList list){
+    public static<E> int getLen(List<E> list){
         int len = 0;
         String str;
         for (int i=0;i<list.size();i++) {

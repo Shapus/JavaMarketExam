@@ -14,26 +14,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author pupil
  */
-public class FileManager {
+public class FileManager implements StorageManagerInterface{
     
-    //save arrayList to file
-    public static boolean saveToFile(ArrayList list, String path){
-        boolean successSave = false;            //return statement
+    @Override
+    public void save(List list, String path){
         FileOutputStream fileOut = null;        //file stream
         ObjectOutputStream objectOut;    //object stream
         
         //create directory if it doesn't exist
         File dir = new File("data");
         if (!dir.exists()) {
-            boolean result = false;
             try{
                 dir.mkdir();
-                result = true;
             } 
             catch(SecurityException se){
                 Print.errorln("Не удалось создать папку \"data\"");
@@ -56,7 +54,6 @@ public class FileManager {
             objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(list);
             objectOut.flush();
-            successSave = true;
         } catch (FileNotFoundException ex) {
             Print.errorln("Файл не найден");
         } catch (IOException ex) {
@@ -68,11 +65,11 @@ public class FileManager {
                 Print.errorln("Ошибка закрытия файла:", ex.toString());
             } 
         }
-        return successSave;
     }
     
+    @Override
     //load arrayList from file
-    public static ArrayList loadFromFile(String path){
+    public List load(String path){
         ArrayList out = new ArrayList();    //return statement
         FileInputStream fileIn;      //load fram path
         ObjectInputStream objectIn;  //input file stream

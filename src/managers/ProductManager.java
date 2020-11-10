@@ -10,6 +10,7 @@ import entities.Product;
 import entities.User;
 import exceptions.IncorrectValueException;
 import java.util.ArrayList;
+import java.util.List;
 import jktvr19_ostromogilskii_laptops.App;
 import utils.Print;
 
@@ -20,7 +21,7 @@ import utils.Print;
 public class ProductManager extends App{
    
 //get products
-    public static ArrayList<Product> get(){
+    public static List<Product> get(){
         return products;
     }
     
@@ -31,25 +32,25 @@ public class ProductManager extends App{
     }
 
 //add product
-    public static boolean add(Product product){
+    public static void add(Product product){
         products.add(product);
-        return update();
+        update();
     }
     
 //delete product
-    public static boolean delete(Product product){
+    public static void delete(Product product){
         products.remove(product);
-        return update();
+        update();
     }
     
 //delete product by index
-    public static boolean delete(int index){
+    public static void delete(int index){
         products.remove(index);
-        return update();
+        update();
     }
     
 //increase quantity
-    public static boolean increaseQuantity(Product product, int quantity){
+    public static void increaseQuantity(Product product, int quantity){
         int index = products.indexOf(product);
         int oldQuantity = products.get(index).getQuantity();
         try {
@@ -57,10 +58,10 @@ public class ProductManager extends App{
         } catch (IncorrectValueException e) {
             Print.errorln(e.toString());
         }
-        return update();
+        update();
     }
 //increase quantity by 1
-    public static boolean increaseQuantity(Product product){
+    public static void increaseQuantity(Product product){
         int index = products.indexOf(product);
         int oldQuantity = products.get(index).getQuantity();
         try {
@@ -68,11 +69,11 @@ public class ProductManager extends App{
         } catch (IncorrectValueException e) {
             Print.errorln(e.toString());
         }
-        return update();
+        update();
     }
     
 //decrease quantity
-    public static boolean decreaseQuantity(Product product, int quantity){
+    public static void decreaseQuantity(Product product, int quantity){
         int index = products.indexOf(product);
         int oldQuantity = products.get(index).getQuantity();
         try {
@@ -80,10 +81,10 @@ public class ProductManager extends App{
         } catch (IncorrectValueException e) {
             Print.errorln(e.toString());
         }
-        return update();
+        update();
     }  
 //decrease quantity by 1
-    public static boolean decreaseQuantity(Product product){
+    public static void decreaseQuantity(Product product){
         int index = products.indexOf(product);
         int oldQuantity = products.get(index).getQuantity();
         try {
@@ -91,29 +92,25 @@ public class ProductManager extends App{
         } catch (IncorrectValueException e) {
             Print.errorln(e.toString());
         }
-        return update();
+        update();
     }
 
 //load products ArrayList from file
     public static void load(){
-        products = FileManager.loadFromFile(Path.PRODUCTS.getPath());
+        products = storageManager.load(Path.PRODUCTS.getPath());
         if(products == null){
             products = new ArrayList();
         }
     }
     
 //save products ArrayList to file
-    public static boolean save(){
-        return FileManager.saveToFile(products, Path.PRODUCTS.getPath());
+    public static void save(){
+        storageManager.save(products, Path.PRODUCTS.getPath());
     }
 //update data  
-    public static boolean update(){
-        boolean out;
-        out = save();
-        if(out){
-            load();    
-        }
-        return out;
+    public static void update(){
+        save();
+        load();    
     }    
     
 }

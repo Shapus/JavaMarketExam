@@ -40,12 +40,7 @@ public class Security {
                     break;
                 case 1:
                     userId = UILogin.login();
-                    if(UserManager.check(userId)){
-                        return userId;
-                    }else{
-                        Print.errorln("Неверно введен логин и/или пароль");
-                    }
-                    break;
+                    return userId;
                 case 2:
                     UILogin.registration();
                     break;

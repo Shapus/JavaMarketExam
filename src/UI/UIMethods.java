@@ -42,13 +42,8 @@ public class UIMethods {
             product.setPrice(price);
             int quantity = Scan.getInt("Введите количество: ");
             product.setQuantity(quantity);
-            boolean successAddProduct = ProductManager.add(product);
-            if(successAddProduct){
-                System.out.println(product.toString() + " добавлен");
-            }
-            else{
-                Print.errorln("Не удалось добавить продукт");
-            }
+            ProductManager.add(product);
+            System.out.println(product.toString() + " добавлен");
         }catch(IncorrectValueException e){
             Print.errorln(e.toString());
         }catch(IncorrectInputException e){
@@ -63,12 +58,9 @@ public class UIMethods {
                 Print.printList(ProductManager.get());
                 int index = Scan.getIndex(ProductManager.get(), 1, "Выберите продукт для удаления: ");
                 Product product = (Product)ProductManager.get().get(index-1);
-                if(ProductManager.delete(product)){
-                    System.out.println(product.toString() + " удален");
-                }
-                else{
-                    Print.errorln("Не удалось удалить продукт", " "+product.toString());
-                }
+                ProductManager.delete(product);
+                System.out.println(product.toString() + " удален");
+ 
             }
         }catch (IncorrectInputException e) {
             Print.errorln(e.toString());

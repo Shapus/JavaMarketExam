@@ -8,20 +8,30 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author pupil
  */
+@Entity
 public class Deal implements Serializable{
     
 //variables
-    User user;
-    Product product;
-    int quantity;
-    Date date;
+    @Id @GeneratedValue
+    private int id;
+    private User user;
+    private Product product;
+    private int quantity;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     
 //constructors
+    public Deal(){};
     public Deal(User user, Product product){
         this.user = user;
         this.product = product;
@@ -47,6 +57,9 @@ public class Deal implements Serializable{
     }
     public Date getDate() {
         return date;
+    }
+    public int getId(){
+        return id;
     }
 
 //setters

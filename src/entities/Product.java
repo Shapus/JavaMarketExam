@@ -8,14 +8,20 @@ package entities;
 import exceptions.IncorrectValueException;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  *
  * @author pupil
  */
+@Entity
 public class Product implements Serializable{
 
 //variables
+    @Id @GeneratedValue
+    private int id;
     private String name;
     private double price;
     private int quantity;
@@ -38,6 +44,9 @@ public class Product implements Serializable{
     }
     public int getQuantity() {
         return quantity;
+    }
+    public int getId(){
+        return id;
     }
     
 //setters

@@ -43,7 +43,8 @@ public class MarketManager extends App{
 
             ProductManager.get(product).setQuantity(product.getQuantity()-quantity);
             DealManager.add(new Deal(user, product, quantity));
-            return update();
+            update();
+            return true;
         }catch(IncorrectValueException e){
             Print.errorln(e.toString());
             return false;
@@ -51,16 +52,16 @@ public class MarketManager extends App{
     }    
     
 //update all
-    public static boolean update(){
-        return ProductManager.update() &&
-        UserManager.update() &&
+    public static void update(){
+        ProductManager.update();
+        UserManager.update();
         DealManager.update();
     }
     
 //save all
-    public static boolean save(){
-        return ProductManager.save() &&
-        UserManager.save() &&
+    public static void save(){
+        ProductManager.save();
+        UserManager.save();
         DealManager.save();
     }
     
