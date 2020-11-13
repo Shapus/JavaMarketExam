@@ -5,7 +5,9 @@
  */
 package UI;
 
+import app.App;
 import exceptions.IncorrectInputException;
+import java.util.ArrayList;
 import managers.DealManager;
 import managers.ProductManager;
 import security.Security;
@@ -16,7 +18,7 @@ import utils.Scan;
  *
  * @author pupil
  */
-public class Interface {
+public class UI {
     
 //variables
     private static boolean exit;
@@ -54,7 +56,8 @@ public class Interface {
                 case 0:                
                     exit = UIMethods.exit();
                     break;
-                case 1:                
+                case 1:     
+                    App.user_coocie = new ArrayList();
                     return true;
                 case 2:     
                     UIMethods.addProduct();
@@ -106,7 +109,8 @@ public class Interface {
                 case 0:  
                     exit = UIMethods.exit();
                     break;
-                case 1:                
+                case 1:
+                    App.user_coocie = new ArrayList();
                     return true;
                 case 2:     
                     Print.printList(ProductManager.getAll());

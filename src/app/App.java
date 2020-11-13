@@ -5,13 +5,15 @@
  */
 package app;
 
-import UI.Interface;
+import IO.FileManager;
+import UI.UI;
 import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
 import managers.UserManager;
 import security.Security;
+import utils.Print;
 
 /**
  *
@@ -26,7 +28,7 @@ public class App {
     
     //file paths
     public static enum Path{
-        DIRECTORY("data\\"), ACCOUNTS("accounts.txt"), PRODUCTS("products.txt"), DEALS("deals.txt"), USERS("users.txt");
+        DIRECTORY("data\\"), ACCOUNTS("accounts.txt"), PRODUCTS("products.txt"), DEALS("deals.txt"), USERS("users.txt"), USER_COOCIE("user_coocie.txt");
         String path;
         Path(String str){
             path = str;
@@ -61,11 +63,13 @@ public class App {
     protected static ArrayList<User> users;
     protected static ArrayList<Product> products;
     protected static ArrayList<Deal> deals;
+    public static ArrayList<User> user_coocie;
     
     public static String[] taskList;
     private boolean runApp;
 
     public void run(){
+        user_coocie = FileManager.load(Path.USER_COOCIE.getPath());
         security = new Security();
         UserManager.addAdmin();
         runApp = true;
@@ -79,11 +83,19 @@ public class App {
                 
             }
             else if(UserManager.get(Security.getUser().getId()).getRole() == Role.USER){
-                runApp = Interface.userInterface();
+                System.out.print("Вы вошли как ");
+                Print.alertln(Security.getUser().getLogin());
+                runApp = UI.userInterface();
             }
             else if(UserManager.get(Security.getUser().getId()).getRole() == Role.ADMIN){
-                runApp = Interface.adminInterface();
+                System.out.print("Вы вошли как ");
+                Print.alertln("Администратор");
+                runApp = UI.adminInterface();
             }
+        }
+        if(Security.getUser() != null && Security.getUser() != UserManager.guest()){
+            user_coocie.add(Security.getUser());
+            FileManager.save(user_coocie, Path.USER_COOCIE.getPath());
         }
     }
 }

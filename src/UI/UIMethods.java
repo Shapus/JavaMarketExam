@@ -88,7 +88,7 @@ public class UIMethods {
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для восстановления: ");
                 Product product = products.get(index-1);
-                ProductManager.delete(product);
+                ProductManager.restore(product);
                 if(!ProductManager.get(product.getId()).isDeleted()){
                     System.out.println(product.toString() + " восстановлен");
                 }

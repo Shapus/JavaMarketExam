@@ -45,10 +45,16 @@ public class ProductManager extends App{
         Database.insert(product);
     }
     
-//delete product by id
+//delete product
     public static void delete(Product product){
         Database.begin();
         product.setDeleted(true);
+        Database.getTx().commit();
+    }
+//restore product
+    public static void restore(Product product){
+        Database.begin();
+        product.setDeleted(false);
         Database.getTx().commit();
     }
     

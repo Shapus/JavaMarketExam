@@ -8,6 +8,7 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
+import static app.App.user_coocie;
 import managers.UserManager;
 import utils.Print;
 import utils.Scan;
@@ -26,7 +27,13 @@ public class Security {
     private int operation;
     
     public void run(){
-        user = UserManager.guest();
+        try{
+            user = user_coocie.get(0);
+            return;
+        }catch(IndexOutOfBoundsException e){
+            user = UserManager.guest();
+        }
+        
         while(true){
             Print.printList(taskList);
             operation = Scan.getOperation(taskList);
