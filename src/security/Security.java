@@ -8,17 +8,17 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
-import static app.App.user_coocie;
-import managers.UserManager;
+import managers.UserController;
 import utils.Print;
 import utils.Scan;
+import static app.App.user_cookie;
 
 /**
  *
  * @author pupil
  */
 public class Security {
-    private static User user = UserManager.guest();
+    private static User user = UserController.guest();
     private String[] taskList = {
                     "Выйти из программы",
                     "Войти",
@@ -28,10 +28,10 @@ public class Security {
     
     public void run(){
         try{
-            user = user_coocie.get(0);
+            user = user_cookie.get(0);
             return;
-        }catch(IndexOutOfBoundsException e){
-            user = UserManager.guest();
+        }catch(IndexOutOfBoundsException | NullPointerException e){
+            user = UserController.guest();
         }
         
         while(true){
@@ -57,10 +57,10 @@ public class Security {
     }
     
     public static User getUser(){
-        if(user == UserManager.guest()){
+        if(user == UserController.guest()){
             return user;
         }
-        return UserManager.get(user.getId());
+        return UserController.get(user.getId());
     }
     
     

@@ -16,7 +16,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class UserManager extends App{
+public class UserController extends App{
     
 //variables
     private static User guest;

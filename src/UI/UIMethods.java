@@ -9,9 +9,9 @@ import entities.Product;
 import exceptions.IncorrectInputException;
 import exceptions.IncorrectValueException;
 import java.util.List;
-import managers.MarketManager;
-import managers.ProductManager;
-import managers.UserManager;
+import managers.MarketController;
+import managers.ProductController;
+import managers.UserController;
 import security.Security;
 import utils.Print;
 import utils.Scan;
@@ -43,8 +43,8 @@ public class UIMethods {
             product.setPrice(price);
             int quantity = Scan.getInt("Введите количество: ");
             product.setQuantity(quantity);
-            ProductManager.add(product);
-            if(ProductManager.get(product.getId()) != null){
+            ProductController.add(product);
+            if(ProductController.get(product.getId()) != null){
                 System.out.println(product.toString() + " добавлен");
             }
             else{
@@ -59,14 +59,14 @@ public class UIMethods {
     
 //delete product
     public static void deleteProduct(){
-        List<Product> products = ProductManager.getAll();
+        List<Product> products = ProductController.getAll();
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для удаления: ");
                 Product product = products.get(index-1);
-                ProductManager.delete(product);
-                if(ProductManager.get(product.getId()).isDeleted()){
+                ProductController.delete(product);
+                if(ProductController.get(product.getId()).isDeleted()){
                     System.out.println(product.toString() + " удален");
                 }
                 else{
@@ -82,14 +82,14 @@ public class UIMethods {
     
 //restore product
     public static void restoreProduct(){
-        List<Product> products = ProductManager.getAll(true);
+        List<Product> products = ProductController.getAll(true);
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для восстановления: ");
                 Product product = products.get(index-1);
-                ProductManager.restore(product);
-                if(!ProductManager.get(product.getId()).isDeleted()){
+                ProductController.restore(product);
+                if(!ProductController.get(product.getId()).isDeleted()){
                     System.out.println(product.toString() + " восстановлен");
                 }
                 else{
@@ -105,14 +105,14 @@ public class UIMethods {
     
 //change quantity
     public static void changeProductQuantity(){
-        List<Product> products = ProductManager.getAll();
+        List<Product> products = ProductController.getAll();
         try {
             if(products.size() > 0){
                     Print.printList(products);
                     int product_index = Scan.getIndex(products, 1, "Выберите продукт: ");
                     Product product = products.get(product_index-1);
                     int quantity = Scan.getInt("Введите количество: ");
-                    ProductManager.increaseQuantity(product, quantity);       
+                    ProductController.increaseQuantity(product, quantity);       
                     System.out.println("Текущее количество: "+product.getQuantity());
             }else{
                 Print.emptyMessage();
@@ -124,14 +124,14 @@ public class UIMethods {
 
 //buy product by user
     public static void buyProduct(){
-        List<Product> products = ProductManager.getAll();
+        List<Product> products = ProductController.getAll();
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт: ");
                 Product product = products.get(index-1);
                 int quantity = Scan.getInt("Введите количество: ");
-                if(MarketManager.buy(UserManager.get(Security.getUser().getId()), product, quantity) != null){
+                if(MarketController.buy(UserController.get(Security.getUser().getId()), product, quantity) != null){
                     System.out.println("Вы успешно купили продукт: "+product.getData()+" в количестве "+quantity);
                     System.out.println("Остаток на счете: "+Security.getUser().getMoney());
                 }

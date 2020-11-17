@@ -16,7 +16,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class ProductManager extends App{
+public class ProductController extends App{
    
     
 //get product

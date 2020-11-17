@@ -11,7 +11,7 @@ import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import managers.UserManager;
+import managers.UserController;
 import security.Security;
 import utils.Print;
 
@@ -63,15 +63,15 @@ public class App {
     protected static ArrayList<User> users;
     protected static ArrayList<Product> products;
     protected static ArrayList<Deal> deals;
-    public static ArrayList<User> user_coocie;
+    public static ArrayList<User> user_cookie;
     
     public static String[] taskList;
     private boolean runApp;
 
     public void run(){
-        user_coocie = FileManager.load(Path.USER_COOCIE.getPath());
+        user_cookie = FileManager.load(Path.USER_COOCIE.getPath());
         security = new Security();
-        UserManager.addAdmin();
+        UserController.addAdmin();
         runApp = true;
         while(runApp){
             security.run();
@@ -82,20 +82,22 @@ public class App {
             else if(Security.getUser().getRole() == Role.GUEST){
                 
             }
-            else if(UserManager.get(Security.getUser().getId()).getRole() == Role.USER){
+            else if(UserController.get(Security.getUser().getId()).getRole() == Role.USER){
+                user_cookie = new ArrayList<User>();
+                user_cookie.add(Security.getUser());
+                FileManager.save(user_cookie, Path.USER_COOCIE.getPath());
                 System.out.print("Вы вошли как ");
                 Print.alertln(Security.getUser().getLogin());
                 runApp = UI.userInterface();
             }
-            else if(UserManager.get(Security.getUser().getId()).getRole() == Role.ADMIN){
+            else if(UserController.get(Security.getUser().getId()).getRole() == Role.ADMIN){
+                user_cookie = new ArrayList<User>();
+                user_cookie.add(Security.getUser());
+                FileManager.save(user_cookie, Path.USER_COOCIE.getPath());
                 System.out.print("Вы вошли как ");
                 Print.alertln("Администратор");
                 runApp = UI.adminInterface();
             }
-        }
-        if(Security.getUser() != null && Security.getUser() != UserManager.guest()){
-            user_coocie.add(Security.getUser());
-            FileManager.save(user_coocie, Path.USER_COOCIE.getPath());
         }
     }
 }

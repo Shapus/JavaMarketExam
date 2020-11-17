@@ -17,7 +17,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class MarketManager extends App{
+public class MarketController extends App{
     
 //buy product
     public static Deal buy(User user, Product product, int quantity){
@@ -60,7 +60,7 @@ public class MarketManager extends App{
         
         Deal deal = new Deal(Security.getUser(), product, quantity);
         System.out.println(deal);
-        DealManager.add(new Deal(user, product, quantity));
+        DealController.add(new Deal(user, product, quantity));
         return deal;
     }    
 }

@@ -14,7 +14,7 @@ import javax.persistence.Query;
  *
  * @author pupil
  */
-public class DealManager extends App{
+public class DealController extends App{
     
     
 //get deal

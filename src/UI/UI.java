@@ -5,14 +5,16 @@
  */
 package UI;
 
+import IO.FileManager;
 import app.App;
 import exceptions.IncorrectInputException;
 import java.util.ArrayList;
-import managers.DealManager;
-import managers.ProductManager;
+import managers.DealController;
+import managers.ProductController;
 import security.Security;
 import utils.Print;
 import utils.Scan;
+import static app.App.user_cookie;
 
 /**
  *
@@ -57,13 +59,14 @@ public class UI {
                     exit = UIMethods.exit();
                     break;
                 case 1:     
-                    App.user_coocie = new ArrayList();
+                    App.user_cookie.clear();
+                    FileManager.save(user_cookie, App.Path.USER_COOCIE.getPath());
                     return true;
                 case 2:     
                     UIMethods.addProduct();
                     break;
                 case 3:   
-                    Print.printList(ProductManager.getAll());
+                    Print.printList(ProductController.getAll());
                     break;
                 case 4:   
                     UIMethods.deleteProduct();
@@ -75,18 +78,18 @@ public class UI {
                     UIMethods.changeProductQuantity();
                     break;
                 case 7:
-                    Print.printList(DealManager.getLast(1));
+                    Print.printList(DealController.getLast(1));
                     break;
                 case 8:
                     try {
                         int amount = Scan.getInt("Введите количество записей: ");
-                        Print.printList(DealManager.getLast(amount));
+                        Print.printList(DealController.getLast(amount));
                     } catch (IncorrectInputException ex) {
                         Print.errorln("Неверный ввод");
                     }
                     break;
                 case 9:
-                    Print.printList(DealManager.getLast());
+                    Print.printList(DealController.getLast());
                     break;
                 default:
                     break;
@@ -110,10 +113,11 @@ public class UI {
                     exit = UIMethods.exit();
                     break;
                 case 1:
-                    App.user_coocie = new ArrayList();
+                    App.user_cookie.clear();
+                    FileManager.save(user_cookie, App.Path.USER_COOCIE.getPath());
                     return true;
                 case 2:     
-                    Print.printList(ProductManager.getAll());
+                    Print.printList(ProductController.getAll());
                     break;
                 case 3: 
                     UIMethods.buyProduct();

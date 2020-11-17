@@ -10,7 +10,7 @@ import exceptions.IncorrectValueException;
 import app.App.Role;
 import javax.persistence.NoResultException;
 import managers.Database;
-import managers.UserManager;
+import managers.UserController;
 import utils.Print;
 import utils.Scan;
 
@@ -23,17 +23,17 @@ public class UILogin {
     public static User login(){
         String login;
         String password;
-        User user = UserManager.guest();
+        User user = UserController.guest();
             
         Print.alert("Имя пользователя:", " ");
         login = Scan.getString();
         Print.alert("Пароль:", " ");
         password = Scan.getString();
         try{
-            user = UserManager.get(login, password);
+            user = UserController.get(login, password);
         }catch(NoResultException e){
             Print.errorln("Неверно введен логин и/или пароль");
-            return UserManager.guest();
+            return UserController.guest();
         }
         return user;
     }
