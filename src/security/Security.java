@@ -43,6 +43,7 @@ public class Security {
             switch (operation) {
                 case 0:
                     if(UIMethods.exit()){
+                        user = null;
                         return;
                     } 
                     break;
@@ -59,6 +60,9 @@ public class Security {
     public static User getUser(){
         if(user == UserController.guest()){
             return user;
+        }
+        if(user == null){
+            return null;
         }
         return UserController.get(user.getId());
     }
