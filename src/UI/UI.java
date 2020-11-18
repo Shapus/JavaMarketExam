@@ -7,6 +7,8 @@ package UI;
 
 import IO.FileManager;
 import app.App;
+import static app.App.DEAL_CONTROLLER;
+import static app.App.PRODUCT_CONTROLLER;
 import exceptions.IncorrectInputException;
 import java.util.ArrayList;
 import controllers.DealController;
@@ -68,7 +70,7 @@ public class UI {
                     UIMethods.addProduct();
                     break;
                 case 3:   
-                    Print.printList(ProductController.getAll());
+                    Print.printList(PRODUCT_CONTROLLER.selectAll());
                     break;
                 case 4:   
                     UIMethods.deleteProduct();
@@ -80,18 +82,18 @@ public class UI {
                     UIMethods.changeProductQuantity();
                     break;
                 case 7:
-                    Print.printList(DealController.getLast(1));
+                    Print.printList(DEAL_CONTROLLER.getLast(1));
                     break;
                 case 8:
                     try {
                         int amount = Scan.getInt("Введите количество записей: ");
-                        Print.printList(DealController.getLast(amount));
+                        Print.printList(DEAL_CONTROLLER.getLast(amount));
                     } catch (IncorrectInputException ex) {
                         Print.errorln("Неверный ввод");
                     }
                     break;
                 case 9:
-                    Print.printList(DealController.getLast());
+                    Print.printList(DEAL_CONTROLLER.getLast());
                     break;
                 default:
                     break;
@@ -119,7 +121,7 @@ public class UI {
                     FileManager.save(user_cookie, App.Path.USER_COOCIE.getPath());
                     return true;
                 case 2:     
-                    Print.printList(ProductController.getAll());
+                    Print.printList(PRODUCT_CONTROLLER.selectAll());
                     break;
                 case 3: 
                     UIMethods.buyProduct();

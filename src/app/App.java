@@ -7,6 +7,8 @@ package app;
 
 import IO.FileManager;
 import UI.UI;
+import controllers.DealController;
+import controllers.ProductController;
 import entities.Deal;
 import entities.Product;
 import entities.User;
@@ -65,24 +67,28 @@ public class App {
     protected static ArrayList<Deal> deals;
     public static ArrayList<User> user_cookie;
     
+    //controllers
+    public static final UserController USER_CONTROLLER = new UserController();
+    public static final ProductController PRODUCT_CONTROLLER = new ProductController();
+    public static final DealController DEAL_CONTROLLER = new DealController();
+    
     public static String[] taskList;
     private boolean runApp;
 
     public void run(){
         user_cookie = FileManager.load(Path.USER_COOCIE.getPath());
         security = new Security();
-        UserController.addAdmin();
+        USER_CONTROLLER.addAdmin();
         runApp = true;
         while(runApp){
             security.run();
-            
             if(Security.getUser() == null){
                 runApp = false;
             }
             else if(Security.getUser().getRole() == Role.GUEST){
                 
             }
-            else if(UserController.get(Security.getUser().getId()).getRole() == Role.USER){
+            else if(Security.getUser().getRole() == Role.USER){
                 user_cookie = new ArrayList<User>();
                 user_cookie.add(Security.getUser());
                 FileManager.save(user_cookie, Path.USER_COOCIE.getPath());
@@ -90,7 +96,7 @@ public class App {
                 Print.alertln(Security.getUser().getLogin());
                 runApp = UI.userInterface();
             }
-            else if(UserController.get(Security.getUser().getId()).getRole() == Role.ADMIN){
+            else if(Security.getUser().getRole() == Role.ADMIN){
                 user_cookie = new ArrayList<User>();
                 user_cookie.add(Security.getUser());
                 FileManager.save(user_cookie, Path.USER_COOCIE.getPath());

@@ -8,6 +8,7 @@ package UI;
 import entities.User;
 import exceptions.IncorrectValueException;
 import app.App.Role;
+import static app.App.USER_CONTROLLER;
 import javax.persistence.NoResultException;
 import controllers.Controller;
 import controllers.UserController;
@@ -32,7 +33,7 @@ public class UILogin {
         Print.alert("Пароль:", " ");
         password = Scan.getString();
         try{
-            user = UserController.get(login, password);
+            user = USER_CONTROLLER.get(login, password);
         }catch(NoResultException e){
             Print.errorln("Неверно введен логин и/или пароль");
             return UserController.guest();
@@ -70,7 +71,7 @@ public class UILogin {
             }
             
             //success registration
-            Controller.insert(user);
+            USER_CONTROLLER.insert(user);
             System.out.println("Пользователь зарегистрирован");
         }catch (IncorrectValueException e) {
             Print.errorln(e.toString());

@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -21,11 +22,14 @@ public abstract class Controller<T> {
     private static EntityManagerFactory emf;
     private static EntityManager em;
     private static EntityTransaction tx;
+    private static Class className;
 
     
 //=============================== ABSTRACT METHODS    
     //update values  
     protected abstract void update();
+    //get className
+    protected abstract Class<T> getClassName();
     
     
 //=============================== METHODS    
@@ -37,19 +41,19 @@ public abstract class Controller<T> {
     }
 
     //begin
-    private static void begin(){
+    protected static void begin(){
         if(!Controller.getTx().isActive()){
             tx.begin();
         }
     }
     
     //insert    
-    public static <T> void insert(T entity){
+    public void insert(T entity){
         begin();
         em.persist(entity);
         tx.commit();
     }
-    public static void insertAll(List entitiesArray){
+    public void insertAll(List<T> entitiesArray){
         begin();
         for(int i=0; i<entitiesArray.size();i++){         
             em.persist(entitiesArray.get(i));
@@ -58,25 +62,32 @@ public abstract class Controller<T> {
     }
     
     //get
-    public static <T> T select(Class<T> className, int id){
+    public T select(int id){
         begin();
-        T out = em.find(className, id);
+        T out = em.find(getClassName(), id);
         tx.commit();
         return out;
     }
+    public List<T> selectAll(){
+        begin();
+        Controller.begin();
+        Query q = getEm().
+        createQuery("Select t from " + getClassName().getSimpleName() + " t");
+        return q.getResultList();
+    }
     
     //delete
-    public static <T> void delete(Class<T> className, int id){
+    public void delete(int id){
         begin();
-        Object object = em.find(className, id);
+        Object object = em.find(getClassName(), id);
         em.remove(object);
         tx.commit();
     }
     
     //query
-    public static <T> List<T> namedQuery(String queryName, Class<T> className){
+    public List<T> namedQuery(String queryName){
         begin();
-        List<T> out = em.createNamedQuery(queryName, className).getResultList();
+        List<T> out = em.createNamedQuery(queryName, getClassName()).getResultList();
         tx.commit();
         return out;
     }

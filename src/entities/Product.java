@@ -46,6 +46,15 @@ public class Product implements Serializable{
         this.deleted = false;
     }
 
+    
+//=============================== METHODS
+    private String getDeletedString(){
+        String str = "";
+        if(deleted){
+            str = app.App.RED_BACKGROUND + app.App.WHITE + " DELETED " + app.App.RESET + " ";
+        }
+        return str;
+    }
 //=============================== GETTERS
     public String getName() {
         return name;
@@ -91,7 +100,7 @@ public class Product implements Serializable{
 //to string
     @Override
     public String toString() {
-        return "Product " + id + " {" + "model=" + name + ", cost=" + price + ", quantity=" + quantity + '}';
+        return getDeletedString()+"Product " + id + " {" + "model=" + name + ", cost=" + price + ", quantity=" + quantity + '}';
     }
     public String getData() {
         return "Product " + id + " {" + "model=" + name + ", cost=" + price + "}";

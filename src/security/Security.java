@@ -8,6 +8,7 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
+import static app.App.USER_CONTROLLER;
 import controllers.UserController;
 import utils.Print;
 import utils.Scan;
@@ -69,7 +70,7 @@ public class Security {
         if(user == null){
             return null;
         }
-        return UserController.get(user.getId());
+        return (User)USER_CONTROLLER.select(user.getId());
     }
     
     

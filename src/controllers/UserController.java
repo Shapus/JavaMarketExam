@@ -17,20 +17,28 @@ import utils.Print;
  *
  * @author pupil
  */
-public class UserController{
+public class UserController extends Controller{
     
 //=============================== VARIABLES
     private static User guest;
 
-    
-//=============================== METHODS    
-//get user
-    public static User get(int id){
-        return Controller.select(User.class, id);
+ 
+//=============================== ABSTRACT METHODS     
+    @Override
+    protected void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    protected Class getClassName() {
+        return User.class;
+    }
+    
+    
+//=============================== METHODS    
+
 //get user
-    public static User get(String login, String password){
+    public User get(String login, String password){
         Query q = Controller.getEm().
         createQuery("SELECT u FROM User u WHERE u.login=:login AND u.password=:password").setParameter("login", login).setParameter("password", password);
         User user = (User)q.getSingleResult();
@@ -39,7 +47,7 @@ public class UserController{
     
     
 //add admin
-    public static void addAdmin() {
+    public void addAdmin() {
         try {
             Query q = Controller.getEm().
             createQuery("SELECT u FROM User u WHERE u.role=:role").setParameter("role", Role.ADMIN);
@@ -48,22 +56,12 @@ public class UserController{
         }catch(NoResultException e){
             try{
                 User admin = new User("admin", "123123", Role.ADMIN);
-                Controller.insert(admin);
+                insert(admin);
             }catch (IncorrectValueException ex) {
                 Print.errorln("Не удалось создать администратора");
             } 
             
         }
-    }
-    
-//add user
-    public static void add(User user){
-        Controller.insert(user);
-    }
-    
-//delete user
-    public static void delete(int id){
-        Controller.delete(User.class, id);
     }
    
 //get guest user
