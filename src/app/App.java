@@ -12,9 +12,11 @@ import facade.ProductFacade;
 import entities.Deal;
 import entities.Product;
 import entities.User;
+import facade.AbstractFacade;
 import java.util.ArrayList;
 import facade.UserFacade;
-import facade.FacadeFactory;
+import factory.ConnectSingleton;
+import factory.FacadeFactory;
 import security.Security;
 import utils.Print;
 
@@ -72,9 +74,10 @@ public class App {
     private boolean runApp;
 
     public void run(){
+        ConnectSingleton.getInstance();
+        FacadeFactory.getUserFacade().addAdmin();
         user_cookie = FileManager.load(Path.USER_COOCIE.getPath());
         security = new Security();
-        FacadeFactory.getUserFacade().addAdmin();
         runApp = true;
         while(runApp){
             security.run();
@@ -85,7 +88,7 @@ public class App {
                 
             }
             else if(Security.getUser().getRole() == Role.USER){
-                user_cookie = new ArrayList<User>();
+                user_cookie = new ArrayList<>();
                 user_cookie.add(Security.getUser());
                 FileManager.save(user_cookie, Path.USER_COOCIE.getPath());
                 System.out.print("Вы вошли как ");
@@ -93,7 +96,7 @@ public class App {
                 runApp = UI.userInterface();
             }
             else if(Security.getUser().getRole() == Role.ADMIN){
-                user_cookie = new ArrayList<User>();
+                user_cookie = new ArrayList<>();
                 user_cookie.add(Security.getUser());
                 FileManager.save(user_cookie, Path.USER_COOCIE.getPath());
                 System.out.print("Вы вошли как ");

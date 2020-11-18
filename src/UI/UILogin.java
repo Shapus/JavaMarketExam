@@ -10,7 +10,7 @@ import exceptions.IncorrectValueException;
 import app.App.Role;
 import javax.persistence.NoResultException;
 import facade.UserFacade;
-import facade.FacadeFactory;
+import factory.FacadeFactory;
 import utils.Print;
 import utils.Scan;
 

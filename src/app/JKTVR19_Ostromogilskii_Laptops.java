@@ -5,7 +5,7 @@
  */
 package app;
 
-import facade.AbstractFacade;
+import factory.ConnectSingleton;
 
 /**
  *
@@ -18,7 +18,6 @@ public class JKTVR19_Ostromogilskii_Laptops {
      */
     public static void main(String[] args) {
         App app = new App();
-        AbstractFacade.init();
         app.run();
     }
 }

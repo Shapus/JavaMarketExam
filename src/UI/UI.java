@@ -12,7 +12,7 @@ import security.Security;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
-import facade.FacadeFactory;
+import factory.FacadeFactory;
 
 /**
  *

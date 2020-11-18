@@ -5,6 +5,7 @@
  */
 package facade;
 
+import factory.ConnectSingleton;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,22 +40,15 @@ public abstract class AbstractFacade<T> {
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
-
-    //begin
-    protected static void begin(){
-        if(!AbstractFacade.getTx().isActive()){
-            tx.begin();
-        }
-    }
     
     //insert    
     public void insert(T entity){
-        begin();
+        ConnectSingleton.begin();
         em.persist(entity);
         tx.commit();
     }
     public void insertAll(List<T> entitiesArray){
-        begin();
+        ConnectSingleton.begin();
         for(int i=0; i<entitiesArray.size();i++){         
             em.persist(entitiesArray.get(i));
         }
@@ -63,22 +57,22 @@ public abstract class AbstractFacade<T> {
     
     //get
     public T select(int id){
-        begin();
+        ConnectSingleton.begin();
         T out = em.find(getClassName(), id);
         tx.commit();
         return out;
     }
     public List<T> selectAll(){
-        begin();
-        AbstractFacade.begin();
-        Query q = getEm().
+        ConnectSingleton.begin();
+
+        Query q = ConnectSingleton.getEm().
         createQuery("Select t from " + getClassName().getSimpleName() + " t");
         return q.getResultList();
     }
     
     //delete
     public void delete(int id){
-        begin();
+        ConnectSingleton.begin();
         Object object = em.find(getClassName(), id);
         em.remove(object);
         tx.commit();
@@ -86,22 +80,9 @@ public abstract class AbstractFacade<T> {
     
     //query
     public List<T> namedQuery(String queryName){
-        begin();
+        ConnectSingleton.begin();
         List<T> out = em.createNamedQuery(queryName, getClassName()).getResultList();
         tx.commit();
         return out;
-    }
-
-
-//=============================== GETTERS
-    public static EntityManagerFactory getEmf() {
-        return emf;
-    }
-    public static EntityManager getEm() {
-        return em;
-    }
-    public static EntityTransaction getTx() {
-        return tx;
-    }
-    
+    }   
 }

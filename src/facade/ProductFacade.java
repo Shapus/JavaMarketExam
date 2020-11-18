@@ -8,6 +8,7 @@ package facade;
 import entities.Product;
 import app.App;
 import exceptions.IncorrectValueException;
+import factory.ConnectSingleton;
 import java.util.List;
 import javax.persistence.Query;
 import utils.Print;
@@ -36,21 +37,21 @@ public class ProductFacade extends AbstractFacade{
     
 //restore product
     public void restore(Product product){
-        AbstractFacade.begin();
+        ConnectSingleton.begin();
         product.setDeleted(false);
-        AbstractFacade.getTx().commit();
+        ConnectSingleton.getTx().commit();
     }
 //delete product
     public void setDeleted(Product product){
-        AbstractFacade.begin();
+        ConnectSingleton.begin();
         product.setDeleted(true);
-        AbstractFacade.getTx().commit();
+        ConnectSingleton.getTx().commit();
     }
     
 //delete product
     public List<Product> getByDeleted(Boolean isDeleted){
-        AbstractFacade.begin();
-        Query q = AbstractFacade.getEm().
+        ConnectSingleton.begin();
+        Query q = ConnectSingleton.getEm().
         createQuery("SELECT p FROM Product p WHERE p.deleted = :isDeleted").
                 setParameter("isDeleted", isDeleted);
         return q.getResultList();
@@ -58,12 +59,12 @@ public class ProductFacade extends AbstractFacade{
     
 //increase quantity
     public void increaseQuantity(Product product, int quantity){
-        AbstractFacade.begin();
+        ConnectSingleton.begin();
         try {
             product.setQuantity(product.getQuantity()+quantity);
         } catch (IncorrectValueException ex) {
             Print.errorln("Не удалось изменить количество");
         }
-        AbstractFacade.getTx().commit();    
+        ConnectSingleton.getTx().commit();    
     }
 }

@@ -8,11 +8,13 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
+import app.App;
+import app.App.Role;
 import facade.UserFacade;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
-import facade.FacadeFactory;
+import factory.FacadeFactory;
 
 /**
  *
@@ -35,12 +37,10 @@ public class Security {
     public void run(){
         try{
             user = user_cookie.get(0);
-            return;
         }catch(IndexOutOfBoundsException | NullPointerException e){
             user = UserFacade.guest();
         }
-        
-        while(true){
+        while(user.getRole() == Role.GUEST){
             Print.printList(taskList);
             operation = Scan.getOperation(taskList);
             if(operation != -1){
@@ -64,13 +64,17 @@ public class Security {
     }
 //get user    
     public static User getUser(){
-        if(user == UserFacade.guest()){
+        if(user == UserFacade.guest() || user == null){
             return user;
         }
-        if(user == null){
-            return null;
+        
+        User out;
+        try{
+            out = (User)FacadeFactory.getUserFacade().check(user.getLogin(), user.getPassword());
+        }catch(NullPointerException e){
+            out = UserFacade.guest();
         }
-        return (User)FacadeFactory.getUserFacade().select(user.getId());
+        return out;
     }
     
     

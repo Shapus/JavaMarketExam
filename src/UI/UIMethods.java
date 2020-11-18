@@ -11,7 +11,7 @@ import exceptions.IncorrectValueException;
 import java.util.List;
 import entities.Deal;
 import entities.User;
-import facade.FacadeFactory;
+import factory.FacadeFactory;
 import security.Security;
 import utils.Print;
 import utils.Scan;

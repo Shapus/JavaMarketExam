@@ -9,6 +9,7 @@ import entities.Deal;
 import entities.Product;
 import entities.User;
 import exceptions.IncorrectValueException;
+import factory.ConnectSingleton;
 import java.util.List;
 import javax.persistence.Query;
 import security.Security;
@@ -35,16 +36,16 @@ public class DealFacade extends AbstractFacade{
     
 //get last deal
     public List<Deal> getLast(){
-        AbstractFacade.begin();
-        Query q = AbstractFacade.getEm().
+        ConnectSingleton.begin();
+        Query q = ConnectSingleton.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC");
         return q.getResultList();
     }
     
 //get last *n* deals
     public List<Deal> getLast(int amount){
-        AbstractFacade.begin();
-        Query q = AbstractFacade.getEm().
+        ConnectSingleton.begin();
+        Query q = ConnectSingleton.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC", Integer.class).
         setMaxResults(amount);
         return q.getResultList();
@@ -70,7 +71,7 @@ public class DealFacade extends AbstractFacade{
         }
 
         //update      
-        AbstractFacade.begin();
+        ConnectSingleton.begin();
         double oldMoney = user.getMoney(); 
         try {
             user.setMoney(user.getMoney()-product.getPrice()*quantity);
@@ -87,7 +88,7 @@ public class DealFacade extends AbstractFacade{
             } catch (IncorrectValueException ex_1) {}
             return null;
         }
-        AbstractFacade.getTx().commit();
+        ConnectSingleton.getTx().commit();
         
         Deal deal = new Deal(Security.getUser(), product, quantity);
         System.out.println(deal);

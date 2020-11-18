@@ -9,6 +9,7 @@ import entities.User;
 import exceptions.IncorrectValueException;
 import app.App;
 import app.App.Role;
+import factory.ConnectSingleton;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import utils.Print;
@@ -39,7 +40,7 @@ public class UserFacade extends AbstractFacade{
 
 //get user
     public User check(String login, String password){
-        Query q = AbstractFacade.getEm().
+        Query q = ConnectSingleton.getEm().
         createQuery("SELECT u FROM User u WHERE u.login=:login AND u.password=:password").setParameter("login", login).setParameter("password", password);
         User user = (User)q.getSingleResult();
         return user;
@@ -48,7 +49,7 @@ public class UserFacade extends AbstractFacade{
 //add admin
     public void addAdmin() {
         try {
-            Query q = AbstractFacade.getEm().
+            Query q = ConnectSingleton.getEm().
             createQuery("SELECT u FROM User u WHERE u.role=:role").setParameter("role", Role.ADMIN);
             q.getSingleResult();
             
