@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class Print {
     
-    //print menu with borders
+//=============================== METHODS    
+//print menu with borders
     public static<E> void printList(List<E> list){
         //if list is empty
         if(list.isEmpty()){
@@ -33,9 +34,8 @@ public class Print {
         }
         
     }
-    
-    
-    //print menu with borders
+       
+//print menu with borders
     public static void printList(String[] list){
         
         //if list is empty
@@ -56,7 +56,7 @@ public class Print {
         printLine(len);
     }
     
-    //if no data message
+//if no data message
     public static void emptyMessage(){       
         printLine();
         System.out.println("|"+App.BLUE+"               НЕТ ДАННЫХ             "+App.RESET+"|");
@@ -65,7 +65,7 @@ public class Print {
     
     
     
-    //message with red bg
+//message with red bg
     public static void error(String str){
         System.out.print(App.RED_BACKGROUND + App.WHITE + " " + str.toUpperCase() + " " + App.RESET);
     }
@@ -79,7 +79,7 @@ public class Print {
         System.out.println(App.RED_BACKGROUND + App.WHITE + " " + str.toUpperCase() + " " + App.RESET + " " + after);
     }
     
-    //message with blue bg
+//message with blue bg
     public static void alert(String str){
         System.out.print(App.BLUE_BACKGROUND + App.WHITE + " " + str.toUpperCase() + " " + App.RESET);
     }
@@ -92,7 +92,8 @@ public class Print {
     public static void alertln(String str, String after){
         System.out.println(App.BLUE_BACKGROUND + App.WHITE + " " + str.toUpperCase() + " " + App.RESET + " " + after);
     }
-    
+
+//print *-* line    
     public static void printLine(int count){
         for(int i=0;i<count;i++){
            System.out.print("-"); 
@@ -104,7 +105,7 @@ public class Print {
         }System.out.println("");
     }
     
-    //get max length of printing strings
+//get max length of printing strings
     public static<E> int getLen(List<E> list){
         int len = 0;
         String str;

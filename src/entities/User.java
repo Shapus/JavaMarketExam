@@ -23,7 +23,7 @@ import javax.persistence.Id;
 @Entity
 public class User implements Serializable{
 
-//variables
+//=============================== VARIABLES
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Role role;
@@ -34,7 +34,7 @@ public class User implements Serializable{
     @Basic(fetch=FetchType.EAGER)
     private boolean deleted;
 
-//constructors
+//=============================== CONSTRUCTORS
     public User(){
         this.deleted = false;
     }
@@ -51,7 +51,7 @@ public class User implements Serializable{
     }
     
 
-//getters
+//=============================== GETTERS
     public Role getRole() {
         return role;
     }
@@ -68,7 +68,7 @@ public class User implements Serializable{
         return id;
     }
     
-//setters
+//=============================== SETTERS
     public void setRole(Role role) {
         this.role = role;
     }
@@ -94,6 +94,8 @@ public class User implements Serializable{
         this.money = money;
     }
 
+    
+//=============================== OVERRIDDEN METHODS    
 //to string
     @Override    
     public String toString() {

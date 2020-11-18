@@ -9,9 +9,9 @@ import entities.Product;
 import exceptions.IncorrectInputException;
 import exceptions.IncorrectValueException;
 import java.util.List;
-import managers.MarketController;
-import managers.ProductController;
-import managers.UserController;
+import controllers.MarketController;
+import controllers.ProductController;
+import controllers.UserController;
 import security.Security;
 import utils.Print;
 import utils.Scan;
@@ -22,6 +22,7 @@ import utils.Scan;
  */
 public class UIMethods {
 
+//=============================== METHODS
 //exit
     public static boolean exit(){
         boolean exit = false;
@@ -108,12 +109,12 @@ public class UIMethods {
         List<Product> products = ProductController.getAll();
         try {
             if(products.size() > 0){
-                    Print.printList(products);
-                    int product_index = Scan.getIndex(products, 1, "Выберите продукт: ");
-                    Product product = products.get(product_index-1);
-                    int quantity = Scan.getInt("Введите количество: ");
-                    ProductController.increaseQuantity(product, quantity);       
-                    System.out.println("Текущее количество: "+product.getQuantity());
+                Print.printList(products);
+                int product_index = Scan.getIndex(products, 1, "Выберите продукт: ");
+                Product product = products.get(product_index-1);
+                int quantity = Scan.getInt("Введите количество: ");
+                ProductController.increaseQuantity(product, quantity);       
+                System.out.println("Текущее количество: "+product.getQuantity());
             }else{
                 Print.emptyMessage();
             }

@@ -22,7 +22,7 @@ import javax.persistence.Id;
 @Entity
 public class Product implements Serializable{
 
-//variables
+//=============================== VARIABLES
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(fetch=FetchType.EAGER)
     private int id;
@@ -35,7 +35,7 @@ public class Product implements Serializable{
     @Basic(fetch=FetchType.EAGER)
     private boolean deleted;
 
-//constructors    
+//=============================== CONSTRUCTORS 
     public Product(){
         this.deleted = false;
     }
@@ -46,7 +46,7 @@ public class Product implements Serializable{
         this.deleted = false;
     }
 
-//getters
+//=============================== GETTERS
     public String getName() {
         return name;
     }
@@ -63,7 +63,7 @@ public class Product implements Serializable{
         return deleted;
     }
     
-//setters
+//=============================== SETTERS
     public void setName(String name) throws IncorrectValueException {
         if(name.trim().equals("")){
             throw new IncorrectValueException("Неверно введено название");
@@ -85,7 +85,9 @@ public class Product implements Serializable{
     public void setDeleted(boolean deleted){
         this.deleted = deleted;
     }
-       
+  
+    
+//=============================== OVERRIDDEN METHODS    
 //to string
     @Override
     public String toString() {

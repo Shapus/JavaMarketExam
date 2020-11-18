@@ -10,11 +10,18 @@ package exceptions;
  * @author pupil
  */
 public class IncorrectValueException extends Exception{
+
+//=============================== VARIABLES
     String error;
+    
+    
+//=============================== METHODS    
     public IncorrectValueException(String error) {
         this.error = error;
     }
-    
+
+
+//=============================== OVERRIDDEN METHODS    
     @Override
     public String toString(){
         return(this.error);

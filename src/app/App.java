@@ -11,7 +11,7 @@ import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import managers.UserController;
+import controllers.UserController;
 import security.Security;
 import utils.Print;
 

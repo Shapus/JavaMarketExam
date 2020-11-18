@@ -20,8 +20,10 @@ import java.util.ArrayList;
  * @author pupil
  */
 public class FileManager {
+
+//=============================== METHODS
     
-    //save arrayList to file
+//save arrayList to file
     public static boolean save(ArrayList list, String path){
         boolean successSave = false;            //return statement
         FileOutputStream fileOut = null;        //file stream
@@ -71,7 +73,7 @@ public class FileManager {
         return successSave;
     }
     
-    //load arrayList from file
+//load arrayList from file
     public static ArrayList load(String path){
         ArrayList out = new ArrayList();    //return statement
         FileInputStream fileIn;      //load fram path

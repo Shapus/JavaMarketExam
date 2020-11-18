@@ -5,7 +5,7 @@
  */
 package app;
 
-import managers.Database;
+import controllers.Controller;
 
 /**
  *
@@ -18,7 +18,7 @@ public class JKTVR19_Ostromogilskii_Laptops {
      */
     public static void main(String[] args) {
         App app = new App();
-        Database.init();
+        Controller.init();
         app.run();
     }
 }

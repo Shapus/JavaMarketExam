@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package controllers;
 
 import entities.Deal;
 import entities.Product;
@@ -17,8 +17,9 @@ import utils.Print;
  *
  * @author pupil
  */
-public class MarketController extends App{
+public class MarketController{
     
+//=============================== METHODS    
 //buy product
     public static Deal buy(User user, Product product, int quantity){
         if(product.getQuantity() <= 0){
@@ -39,7 +40,7 @@ public class MarketController extends App{
         }
 
         //update      
-        Database.begin();
+        Controller.begin();
         double oldMoney = user.getMoney(); 
         try {
             user.setMoney(user.getMoney()-product.getPrice()*quantity);
@@ -56,7 +57,7 @@ public class MarketController extends App{
             } catch (IncorrectValueException ex1) {}
             return null;
         }
-        Database.getTx().commit();
+        Controller.getTx().commit();
         
         Deal deal = new Deal(Security.getUser(), product, quantity);
         System.out.println(deal);

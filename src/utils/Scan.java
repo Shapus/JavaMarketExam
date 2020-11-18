@@ -15,10 +15,13 @@ import java.util.Scanner;
  */
 public class Scan{
     
+//=============================== VARIABLES    
     //scanner
     public static Scanner scanner = new Scanner(System.in);
-    
-    //get integer
+
+
+//=============================== METHODS    
+//get integer
     public static int getInt(String str) throws IncorrectInputException{
         try{
             System.out.print(str);
@@ -40,7 +43,7 @@ public class Scan{
     }
     
     
-    //get string
+ //get string
     public static String getString(String str){
         System.out.print(str);
         String outStr = scanner.nextLine();
@@ -51,7 +54,7 @@ public class Scan{
         return outStr;
     }
     
-    //get double
+//get double
     public static double getDouble(String str) throws IncorrectInputException{
         try{
             System.out.print(str);
@@ -72,8 +75,8 @@ public class Scan{
         }
     }
     
-    //get List/String[] index. If index above list size or less zero, throw NumberFormatException
-    //Should rewrite with generics
+//get List/String[] index. If index above list size or less zero, throw NumberFormatException
+//Should rewrite with Iterable
     public static<E> int getIndex(List<E> list, int shift, String str) throws IncorrectInputException{
         int index = getInt(str);
         if(index > list.size()-1+shift || index < shift) throw new IncorrectInputException("Неверный индекс");
@@ -85,7 +88,7 @@ public class Scan{
         return index;
     }
     
-    //choose operation from task list
+//choose operation from task list
     public static int getOperation(String[] list){
         int operation;
         try{

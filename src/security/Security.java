@@ -8,7 +8,7 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
-import managers.UserController;
+import controllers.UserController;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
@@ -18,6 +18,8 @@ import static app.App.user_cookie;
  * @author pupil
  */
 public class Security {
+    
+//=============================== METHODS    
     private static User user = UserController.guest();
     private String[] taskList = {
                     "Выйти из программы",
@@ -25,7 +27,10 @@ public class Security {
                     "Зарегистрироваться",
                     };
     private int operation;
-    
+
+
+//=============================== METHODS    
+//run security    
     public void run(){
         try{
             user = user_cookie.get(0);
@@ -56,7 +61,7 @@ public class Security {
             }
         }
     }
-    
+//get user    
     public static User getUser(){
         if(user == UserController.guest()){
             return user;

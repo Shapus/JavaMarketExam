@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package controllers;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -14,42 +14,50 @@ import javax.persistence.Persistence;
 /**
  *
  * @author pupil
+ * @param <T>
  */
-public class Database {
-//variables
+public abstract class Controller<T> {
+//=============================== VARIABLES
     private static EntityManagerFactory emf;
     private static EntityManager em;
     private static EntityTransaction tx;
+
     
-//initialization    
+//=============================== ABSTRACT METHODS    
+    //update values  
+    protected abstract void update();
+    
+    
+//=============================== METHODS    
+    //initialization    
     public static void init(){
         emf = Persistence.createEntityManagerFactory("jktvr19market");
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
 
-//begin
-    public static void begin(){
-        if(!Database.getTx().isActive()){
+    //begin
+    private static void begin(){
+        if(!Controller.getTx().isActive()){
             tx.begin();
         }
     }
     
-//insert    
+    //insert    
     public static <T> void insert(T entity){
         begin();
         em.persist(entity);
         tx.commit();
     }
-    public static void insertAll(List entityArray){
+    public static void insertAll(List entitiesArray){
         begin();
-        for(int i=0; i<entityArray.size();i++){         
-            em.persist(entityArray.get(i));
+        for(int i=0; i<entitiesArray.size();i++){         
+            em.persist(entitiesArray.get(i));
         }
         tx.commit();
     }
     
-//get
+    //get
     public static <T> T select(Class<T> className, int id){
         begin();
         T out = em.find(className, id);
@@ -57,15 +65,7 @@ public class Database {
         return out;
     }
     
-//update    
-    public static <T> void update(Class<T> className, int id){
-        begin();
-        Object object = em.find(className, id);
-        //update values code...
-        tx.commit();
-    }
-    
-//delete
+    //delete
     public static <T> void delete(Class<T> className, int id){
         begin();
         Object object = em.find(className, id);
@@ -73,7 +73,7 @@ public class Database {
         tx.commit();
     }
     
-//query
+    //query
     public static <T> List<T> namedQuery(String queryName, Class<T> className){
         begin();
         List<T> out = em.createNamedQuery(queryName, className).getResultList();
@@ -82,7 +82,7 @@ public class Database {
     }
 
 
-//getters
+//=============================== GETTERS
     public static EntityManagerFactory getEmf() {
         return emf;
     }

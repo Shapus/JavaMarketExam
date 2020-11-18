@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package controllers;
 
 import entities.Product;
 import app.App;
@@ -16,25 +16,25 @@ import utils.Print;
  *
  * @author pupil
  */
-public class ProductController extends App{
+public class ProductController{
    
-    
+//=============================== METHODS    
 //get product
     public static Product get(int id){
-        return Database.select(Product.class, id);
+        return Controller.select(Product.class, id);
     }
 
 //get all
     public static List<Product> getAll(){
-        Database.begin();
-        Query q = Database.getEm().
+        Controller.begin();
+        Query q = Controller.getEm().
         createQuery("SELECT p FROM Product p WHERE p.deleted = false");
         return q.getResultList();
     }
 //get all
     public static List<Product> getAll(boolean deleted){
-        Database.begin();
-        Query q = Database.getEm().
+        Controller.begin();
+        Query q = Controller.getEm().
         createQuery("SELECT p FROM Product p WHERE p.deleted = :deleted").
                 setParameter("deleted", deleted);
         return q.getResultList();
@@ -42,31 +42,31 @@ public class ProductController extends App{
     
 //add product
     public static void add(Product product){
-        Database.insert(product);
+        Controller.insert(product);
     }
     
 //delete product
     public static void delete(Product product){
-        Database.begin();
+        Controller.begin();
         product.setDeleted(true);
-        Database.getTx().commit();
+        Controller.getTx().commit();
     }
 //restore product
     public static void restore(Product product){
-        Database.begin();
+        Controller.begin();
         product.setDeleted(false);
-        Database.getTx().commit();
+        Controller.getTx().commit();
     }
     
 //increase quantity
     public static void increaseQuantity(Product product, int quantity){
-        Database.begin();
+        Controller.begin();
         try {
             product.setQuantity(product.getQuantity()+quantity);
         } catch (IncorrectValueException ex) {
             Print.errorln("Не удалось изменить количество");
         }
-        Database.getTx().commit();
+        Controller.getTx().commit();
        
     }
 }

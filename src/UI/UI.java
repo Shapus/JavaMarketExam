@@ -9,8 +9,8 @@ import IO.FileManager;
 import app.App;
 import exceptions.IncorrectInputException;
 import java.util.ArrayList;
-import managers.DealController;
-import managers.ProductController;
+import controllers.DealController;
+import controllers.ProductController;
 import security.Security;
 import utils.Print;
 import utils.Scan;
@@ -22,7 +22,7 @@ import static app.App.user_cookie;
  */
 public class UI {
     
-//variables
+//=============================== VARIABLES
     private static boolean exit;
     private static int operation;
     public static String[] adminTaskList = {
@@ -45,6 +45,8 @@ public class UI {
                         "Состояние счета"
                         };
     
+    
+//=============================== METHODS    
 //administrator interface
     public static boolean adminInterface(){
         exit = false;

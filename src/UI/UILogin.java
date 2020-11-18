@@ -9,8 +9,8 @@ import entities.User;
 import exceptions.IncorrectValueException;
 import app.App.Role;
 import javax.persistence.NoResultException;
-import managers.Database;
-import managers.UserController;
+import controllers.Controller;
+import controllers.UserController;
 import utils.Print;
 import utils.Scan;
 
@@ -19,6 +19,8 @@ import utils.Scan;
  * @author pupil
  */
 public class UILogin {
+    
+//=============================== METHODS    
 //log in
     public static User login(){
         String login;
@@ -68,7 +70,7 @@ public class UILogin {
             }
             
             //success registration
-            Database.insert(user);
+            Controller.insert(user);
             System.out.println("Пользователь зарегистрирован");
         }catch (IncorrectValueException e) {
             Print.errorln(e.toString());

@@ -22,7 +22,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Deal implements Serializable{
-//variables
+    
+//=============================== VARIABLES
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToOne
@@ -33,7 +34,7 @@ public class Deal implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     
-//constructors
+//=============================== CONSTRUCTORS
     public Deal(){
     }
     public Deal(User user, Product product){
@@ -49,7 +50,7 @@ public class Deal implements Serializable{
         this.date = new Date();
     }
     
-//getters
+//=============================== GETTERS
     public User getUser() {
         return user;
     }
@@ -66,13 +67,14 @@ public class Deal implements Serializable{
         return id;
     }
 
-//setters
+//=============================== SETTERS
     /*
     Данные делки нельзя изменить
     */
  
-//to string
 
+//=============================== OVERRIDDEN METHODS    
+//to string
     @Override
     public String toString() {
         return "Deal{" + "user=" + user + ", product=" + product.getData() + ", quantity=" + quantity + ", date=" + date + '}';
