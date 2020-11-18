@@ -7,14 +7,14 @@ package app;
 
 import IO.FileManager;
 import UI.UI;
-import controllers.DealFacade;
-import controllers.ProductFacade;
+import facade.DealFacade;
+import facade.ProductFacade;
 import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import controllers.UserFacade;
-import factory.FacadeFactory;
+import facade.UserFacade;
+import facade.FacadeFactory;
 import security.Security;
 import utils.Print;
 

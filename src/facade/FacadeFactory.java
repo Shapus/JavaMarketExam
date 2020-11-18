@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package factory;
+package facade;
 
-import controllers.DealFacade;
-import controllers.ProductFacade;
-import controllers.UserFacade;
+import facade.DealFacade;
+import facade.ProductFacade;
+import facade.UserFacade;
 
 /**
  *

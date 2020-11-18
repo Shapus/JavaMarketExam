@@ -5,7 +5,7 @@
  */
 package app;
 
-import controllers.AbstractFacade;
+import facade.AbstractFacade;
 
 /**
  *

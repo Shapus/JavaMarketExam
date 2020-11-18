@@ -8,11 +8,11 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
-import controllers.UserFacade;
+import facade.UserFacade;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
-import factory.FacadeFactory;
+import facade.FacadeFactory;
 
 /**
  *

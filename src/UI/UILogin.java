@@ -9,8 +9,8 @@ import entities.User;
 import exceptions.IncorrectValueException;
 import app.App.Role;
 import javax.persistence.NoResultException;
-import controllers.UserFacade;
-import factory.FacadeFactory;
+import facade.UserFacade;
+import facade.FacadeFactory;
 import utils.Print;
 import utils.Scan;
 
