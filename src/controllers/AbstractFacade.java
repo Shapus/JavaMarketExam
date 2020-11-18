@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author pupil
  * @param <T>
  */
-public abstract class Controller<T> {
+public abstract class AbstractFacade<T> {
 //=============================== VARIABLES
     private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -42,7 +42,7 @@ public abstract class Controller<T> {
 
     //begin
     protected static void begin(){
-        if(!Controller.getTx().isActive()){
+        if(!AbstractFacade.getTx().isActive()){
             tx.begin();
         }
     }
@@ -70,7 +70,7 @@ public abstract class Controller<T> {
     }
     public List<T> selectAll(){
         begin();
-        Controller.begin();
+        AbstractFacade.begin();
         Query q = getEm().
         createQuery("Select t from " + getClassName().getSimpleName() + " t");
         return q.getResultList();

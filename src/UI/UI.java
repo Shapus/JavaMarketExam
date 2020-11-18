@@ -7,16 +7,12 @@ package UI;
 
 import IO.FileManager;
 import app.App;
-import static app.App.DEAL_CONTROLLER;
-import static app.App.PRODUCT_CONTROLLER;
 import exceptions.IncorrectInputException;
-import java.util.ArrayList;
-import controllers.DealController;
-import controllers.ProductController;
 import security.Security;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
+import factory.FacadeFactory;
 
 /**
  *
@@ -70,7 +66,7 @@ public class UI {
                     UIMethods.addProduct();
                     break;
                 case 3:   
-                    Print.printList(PRODUCT_CONTROLLER.selectAll());
+                    Print.printList(FacadeFactory.getProductFacade().getByDeleted(false));
                     break;
                 case 4:   
                     UIMethods.deleteProduct();
@@ -82,18 +78,18 @@ public class UI {
                     UIMethods.changeProductQuantity();
                     break;
                 case 7:
-                    Print.printList(DEAL_CONTROLLER.getLast(1));
+                    Print.printList(FacadeFactory.getDealFacade().getLast(1));
                     break;
                 case 8:
                     try {
                         int amount = Scan.getInt("Введите количество записей: ");
-                        Print.printList(DEAL_CONTROLLER.getLast(amount));
+                        Print.printList(FacadeFactory.getDealFacade().getLast(amount));
                     } catch (IncorrectInputException ex) {
                         Print.errorln("Неверный ввод");
                     }
                     break;
                 case 9:
-                    Print.printList(DEAL_CONTROLLER.getLast());
+                    Print.printList(FacadeFactory.getDealFacade().getLast());
                     break;
                 default:
                     break;
@@ -121,7 +117,7 @@ public class UI {
                     FileManager.save(user_cookie, App.Path.USER_COOCIE.getPath());
                     return true;
                 case 2:     
-                    Print.printList(PRODUCT_CONTROLLER.selectAll());
+                    Print.printList(FacadeFactory.getProductFacade().getByDeleted(false));
                     break;
                 case 3: 
                     UIMethods.buyProduct();

@@ -8,10 +8,9 @@ package UI;
 import entities.User;
 import exceptions.IncorrectValueException;
 import app.App.Role;
-import static app.App.USER_CONTROLLER;
 import javax.persistence.NoResultException;
-import controllers.Controller;
-import controllers.UserController;
+import controllers.UserFacade;
+import factory.FacadeFactory;
 import utils.Print;
 import utils.Scan;
 
@@ -26,17 +25,17 @@ public class UILogin {
     public static User login(){
         String login;
         String password;
-        User user = UserController.guest();
+        User user = UserFacade.guest();
             
         Print.alert("Имя пользователя:", " ");
         login = Scan.getString();
         Print.alert("Пароль:", " ");
         password = Scan.getString();
         try{
-            user = USER_CONTROLLER.get(login, password);
+            user = FacadeFactory.getUserFacade().check(login, password);
         }catch(NoResultException e){
             Print.errorln("Неверно введен логин и/или пароль");
-            return UserController.guest();
+            return UserFacade.guest();
         }
         return user;
     }
@@ -71,7 +70,7 @@ public class UILogin {
             }
             
             //success registration
-            USER_CONTROLLER.insert(user);
+            FacadeFactory.getUserFacade().insert(user);
             System.out.println("Пользователь зарегистрирован");
         }catch (IncorrectValueException e) {
             Print.errorln(e.toString());

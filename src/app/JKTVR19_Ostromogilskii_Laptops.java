@@ -5,7 +5,7 @@
  */
 package app;
 
-import controllers.Controller;
+import controllers.AbstractFacade;
 
 /**
  *
@@ -18,7 +18,7 @@ public class JKTVR19_Ostromogilskii_Laptops {
      */
     public static void main(String[] args) {
         App app = new App();
-        Controller.init();
+        AbstractFacade.init();
         app.run();
     }
 }

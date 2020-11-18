@@ -16,7 +16,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class ProductController extends Controller{
+public class ProductFacade extends AbstractFacade{
    
     
 //=============================== ABSTRACT METHODS 
@@ -36,21 +36,21 @@ public class ProductController extends Controller{
     
 //restore product
     public void restore(Product product){
-        Controller.begin();
+        AbstractFacade.begin();
         product.setDeleted(false);
-        Controller.getTx().commit();
+        AbstractFacade.getTx().commit();
     }
 //delete product
     public void setDeleted(Product product){
-        Controller.begin();
+        AbstractFacade.begin();
         product.setDeleted(true);
-        Controller.getTx().commit();
+        AbstractFacade.getTx().commit();
     }
     
 //delete product
     public List<Product> getByDeleted(Boolean isDeleted){
-        Controller.begin();
-        Query q = Controller.getEm().
+        AbstractFacade.begin();
+        Query q = AbstractFacade.getEm().
         createQuery("SELECT p FROM Product p WHERE p.deleted = :isDeleted").
                 setParameter("isDeleted", isDeleted);
         return q.getResultList();
@@ -58,12 +58,12 @@ public class ProductController extends Controller{
     
 //increase quantity
     public void increaseQuantity(Product product, int quantity){
-        Controller.begin();
+        AbstractFacade.begin();
         try {
             product.setQuantity(product.getQuantity()+quantity);
         } catch (IncorrectValueException ex) {
             Print.errorln("Не удалось изменить количество");
         }
-        Controller.getTx().commit();    
+        AbstractFacade.getTx().commit();    
     }
 }

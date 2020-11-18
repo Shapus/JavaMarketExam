@@ -7,13 +7,14 @@ package app;
 
 import IO.FileManager;
 import UI.UI;
-import controllers.DealController;
-import controllers.ProductController;
+import controllers.DealFacade;
+import controllers.ProductFacade;
 import entities.Deal;
 import entities.Product;
 import entities.User;
 import java.util.ArrayList;
-import controllers.UserController;
+import controllers.UserFacade;
+import factory.FacadeFactory;
 import security.Security;
 import utils.Print;
 
@@ -67,18 +68,13 @@ public class App {
     protected static ArrayList<Deal> deals;
     public static ArrayList<User> user_cookie;
     
-    //controllers
-    public static final UserController USER_CONTROLLER = new UserController();
-    public static final ProductController PRODUCT_CONTROLLER = new ProductController();
-    public static final DealController DEAL_CONTROLLER = new DealController();
-    
     public static String[] taskList;
     private boolean runApp;
 
     public void run(){
         user_cookie = FileManager.load(Path.USER_COOCIE.getPath());
         security = new Security();
-        USER_CONTROLLER.addAdmin();
+        FacadeFactory.getUserFacade().addAdmin();
         runApp = true;
         while(runApp){
             security.run();

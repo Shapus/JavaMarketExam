@@ -5,17 +5,13 @@
  */
 package UI;
 
-import static app.App.DEAL_CONTROLLER;
-import static app.App.PRODUCT_CONTROLLER;
-import static app.App.USER_CONTROLLER;
 import entities.Product;
 import exceptions.IncorrectInputException;
 import exceptions.IncorrectValueException;
 import java.util.List;
-import controllers.ProductController;
-import controllers.UserController;
 import entities.Deal;
 import entities.User;
+import factory.FacadeFactory;
 import security.Security;
 import utils.Print;
 import utils.Scan;
@@ -48,8 +44,8 @@ public class UIMethods {
             product.setPrice(price);
             int quantity = Scan.getInt("Введите количество: ");
             product.setQuantity(quantity);
-            PRODUCT_CONTROLLER.insert(product);
-            if(PRODUCT_CONTROLLER.select(product.getId()) != null){
+            FacadeFactory.getProductFacade().insert(product);
+            if(FacadeFactory.getProductFacade().select(product.getId()) != null){
                 System.out.println(product.toString() + " добавлен");
             }
             else{
@@ -64,15 +60,14 @@ public class UIMethods {
     
 //delete product
     public static void deleteProduct(){
-        List<Product> products = PRODUCT_CONTROLLER.getByDeleted(false);
+        List<Product> products = FacadeFactory.getProductFacade().getByDeleted(false);
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для удаления: ");
                 Product product = products.get(index-1);
-                PRODUCT_CONTROLLER.setDeleted(product);
-                System.out.println(product);
-                Product p = (Product) PRODUCT_CONTROLLER.select(product.getId());
+                FacadeFactory.getProductFacade().setDeleted(product);
+                Product p = (Product) FacadeFactory.getProductFacade().select(product.getId());
                 if(p.isDeleted()){
                     System.out.println(product.toString() + " удален");
                 }
@@ -89,14 +84,14 @@ public class UIMethods {
     
 //restore product
     public static void restoreProduct(){
-        List<Product> products = PRODUCT_CONTROLLER.getByDeleted(true);
+        List<Product> products = FacadeFactory.getProductFacade().getByDeleted(true);
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт для восстановления: ");
                 Product product = products.get(index-1);
-                PRODUCT_CONTROLLER.restore(product);
-                Product p = (Product) PRODUCT_CONTROLLER.select(product.getId());
+                FacadeFactory.getProductFacade().restore(product);
+                Product p = (Product) FacadeFactory.getProductFacade().select(product.getId());
                 if(!p.isDeleted()){
                     System.out.println(product.toString() + " восстановлен");
                 }
@@ -113,14 +108,14 @@ public class UIMethods {
     
 //change quantity
     public static void changeProductQuantity(){
-        List<Product> products = PRODUCT_CONTROLLER.selectAll();
+        List<Product> products = FacadeFactory.getProductFacade().getByDeleted(false);
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int product_index = Scan.getIndex(products, 1, "Выберите продукт: ");
                 Product product = products.get(product_index-1);
                 int quantity = Scan.getInt("Введите количество: ");
-                PRODUCT_CONTROLLER.increaseQuantity(product, quantity);       
+                FacadeFactory.getProductFacade().increaseQuantity(product, quantity);       
                 System.out.println("Текущее количество: "+product.getQuantity());
             }else{
                 Print.emptyMessage();
@@ -132,15 +127,15 @@ public class UIMethods {
 
 //buy product by user
     public static void buyProduct(){
-        List<Product> products = PRODUCT_CONTROLLER.selectAll();
+        List<Product> products = FacadeFactory.getProductFacade().getByDeleted(false);
         try {
             if(products.size() > 0){
                 Print.printList(products);
                 int index = Scan.getIndex(products, 1, "Выберите продукт: ");
                 Product product = products.get(index-1);
                 int quantity = Scan.getInt("Введите количество: ");
-                User u = (User) USER_CONTROLLER.select(Security.getUser().getId());
-                Deal deal = DEAL_CONTROLLER.buy(u, product, quantity);
+                User u = (User) FacadeFactory.getUserFacade().select(Security.getUser().getId());
+                Deal deal = FacadeFactory.getDealFacade().buy(u, product, quantity);
                 if(deal != null){
                     System.out.println("Вы успешно купили продукт: "+product.getData()+" в количестве "+quantity);
                     System.out.println("Остаток на счете: "+Security.getUser().getMoney());

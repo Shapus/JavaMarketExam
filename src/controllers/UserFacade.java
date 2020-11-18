@@ -17,7 +17,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class UserController extends Controller{
+public class UserFacade extends AbstractFacade{
     
 //=============================== VARIABLES
     private static User guest;
@@ -38,18 +38,17 @@ public class UserController extends Controller{
 //=============================== METHODS    
 
 //get user
-    public User get(String login, String password){
-        Query q = Controller.getEm().
+    public User check(String login, String password){
+        Query q = AbstractFacade.getEm().
         createQuery("SELECT u FROM User u WHERE u.login=:login AND u.password=:password").setParameter("login", login).setParameter("password", password);
         User user = (User)q.getSingleResult();
         return user;
-    }    
-    
+    }      
     
 //add admin
     public void addAdmin() {
         try {
-            Query q = Controller.getEm().
+            Query q = AbstractFacade.getEm().
             createQuery("SELECT u FROM User u WHERE u.role=:role").setParameter("role", Role.ADMIN);
             q.getSingleResult();
             

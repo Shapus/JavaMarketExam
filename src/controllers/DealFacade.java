@@ -18,7 +18,7 @@ import utils.Print;
  *
  * @author pupil
  */
-public class DealController extends Controller{
+public class DealFacade extends AbstractFacade{
     
 //=============================== OVERRIDDEN METHODS   
     @Override
@@ -35,16 +35,16 @@ public class DealController extends Controller{
     
 //get last deal
     public List<Deal> getLast(){
-        Controller.begin();
-        Query q = Controller.getEm().
+        AbstractFacade.begin();
+        Query q = AbstractFacade.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC");
         return q.getResultList();
     }
     
 //get last *n* deals
     public List<Deal> getLast(int amount){
-        Controller.begin();
-        Query q = Controller.getEm().
+        AbstractFacade.begin();
+        Query q = AbstractFacade.getEm().
         createQuery("SELECT d FROM Deal d ORDER BY d.date DESC", Integer.class).
         setMaxResults(amount);
         return q.getResultList();
@@ -70,7 +70,7 @@ public class DealController extends Controller{
         }
 
         //update      
-        Controller.begin();
+        AbstractFacade.begin();
         double oldMoney = user.getMoney(); 
         try {
             user.setMoney(user.getMoney()-product.getPrice()*quantity);
@@ -87,7 +87,7 @@ public class DealController extends Controller{
             } catch (IncorrectValueException ex_1) {}
             return null;
         }
-        Controller.getTx().commit();
+        AbstractFacade.getTx().commit();
         
         Deal deal = new Deal(Security.getUser(), product, quantity);
         System.out.println(deal);

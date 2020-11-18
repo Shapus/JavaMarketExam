@@ -8,11 +8,11 @@ package security;
 import UI.UILogin;
 import entities.User;
 import UI.UIMethods;
-import static app.App.USER_CONTROLLER;
-import controllers.UserController;
+import controllers.UserFacade;
 import utils.Print;
 import utils.Scan;
 import static app.App.user_cookie;
+import factory.FacadeFactory;
 
 /**
  *
@@ -21,7 +21,7 @@ import static app.App.user_cookie;
 public class Security {
     
 //=============================== METHODS    
-    private static User user = UserController.guest();
+    private static User user = UserFacade.guest();
     private String[] taskList = {
                     "Выйти из программы",
                     "Войти",
@@ -37,7 +37,7 @@ public class Security {
             user = user_cookie.get(0);
             return;
         }catch(IndexOutOfBoundsException | NullPointerException e){
-            user = UserController.guest();
+            user = UserFacade.guest();
         }
         
         while(true){
@@ -64,13 +64,13 @@ public class Security {
     }
 //get user    
     public static User getUser(){
-        if(user == UserController.guest()){
+        if(user == UserFacade.guest()){
             return user;
         }
         if(user == null){
             return null;
         }
-        return (User)USER_CONTROLLER.select(user.getId());
+        return (User)FacadeFactory.getUserFacade().select(user.getId());
     }
     
     
