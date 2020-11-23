@@ -20,9 +20,6 @@ import javax.persistence.Query;
  */
 public abstract class AbstractFacade<T> {
 //=============================== VARIABLES
-    private static EntityManagerFactory emf;
-    private static EntityManager em;
-    private static EntityTransaction tx;
     private static Class className;
 
     
@@ -34,32 +31,26 @@ public abstract class AbstractFacade<T> {
     
     
 //=============================== METHODS    
-    //initialization    
-    public static void init(){
-        emf = Persistence.createEntityManagerFactory("jktvr19market");
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-    }
     
     //insert    
     public void insert(T entity){
         ConnectSingleton.begin();
-        em.persist(entity);
-        tx.commit();
+        ConnectSingleton.getEm().persist(entity);
+        ConnectSingleton.getTx().commit();
     }
     public void insertAll(List<T> entitiesArray){
         ConnectSingleton.begin();
         for(int i=0; i<entitiesArray.size();i++){         
-            em.persist(entitiesArray.get(i));
+            ConnectSingleton.getEm().persist(entitiesArray.get(i));
         }
-        tx.commit();
+        ConnectSingleton.getTx().commit();
     }
     
     //get
     public T select(int id){
         ConnectSingleton.begin();
-        T out = em.find(getClassName(), id);
-        tx.commit();
+        T out = ConnectSingleton.getEm().find(getClassName(), id);
+        ConnectSingleton.getTx().commit();
         return out;
     }
     public List<T> selectAll(){
@@ -73,16 +64,16 @@ public abstract class AbstractFacade<T> {
     //delete
     public void delete(int id){
         ConnectSingleton.begin();
-        Object object = em.find(getClassName(), id);
-        em.remove(object);
-        tx.commit();
+        Object object = ConnectSingleton.getEm().find(getClassName(), id);
+        ConnectSingleton.getEm().remove(object);
+        ConnectSingleton.getTx().commit();
     }
     
     //query
     public List<T> namedQuery(String queryName){
         ConnectSingleton.begin();
-        List<T> out = em.createNamedQuery(queryName, getClassName()).getResultList();
-        tx.commit();
+        List<T> out = ConnectSingleton.getEm().createNamedQuery(queryName, getClassName()).getResultList();
+        ConnectSingleton.getTx().commit();
         return out;
     }   
 }

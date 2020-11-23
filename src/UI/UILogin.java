@@ -70,6 +70,7 @@ public class UILogin {
             }
             
             //success registration
+            System.out.println(user);
             FacadeFactory.getUserFacade().insert(user);
             System.out.println("Пользователь зарегистрирован");
         }catch (IncorrectValueException e) {
